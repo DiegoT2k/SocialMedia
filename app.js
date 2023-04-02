@@ -77,6 +77,18 @@ app.get("/", middleware.requireLogin, (req, res, next) => {
     res.status(200).render("home", payload);
 })
 
+app.get("/postFollowingPage", middleware.requireLogin, (req, res, next) => {
+
+    var payload = {
+        pageTitle: "Post",
+		userLoggedIn: req.session.user,
+		//userLoggedInJs: '{' + '"_id":' + JSON.stringify(req.session.user._id) + '}', //Modified for security purposes
+		userLoggedInJs: JSON.stringify(req.session.user),
+    }
+
+    res.status(200).render("postFollowingPage", payload);
+})
+
 io.on("connection", socket => {
 	
     socket.on("setup", userData => {
