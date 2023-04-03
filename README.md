@@ -15,8 +15,8 @@ A social media website written with Node.JS, MongoDB and Socket.IO
 # Install Instructions
 
     $ cd Downloads
-    $ git clone https://github.com/safesploit/TwitterClone.git
-    $ cd TwitterClone
+    $ git clone https://github.com/DiegoT2k/SocialMedia.git
+    $ cd SocialMedia
     # apt install npm && node
     $ npm install 
     $ node start app.js
