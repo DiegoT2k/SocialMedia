@@ -12,7 +12,7 @@ block content
         - followingCount = profileUser.following.length
         - likesCount = profileUser.likes.length
         - retweetsCount = profileUser.retweets.length
-        - likePost = profileUser.posts.length
+        - likePost = profileUser.numLike
             
         .profileHeaderContainer
             .coverPhotoSection
@@ -55,7 +55,7 @@ block content
                         span#followersValue.value #{followersCount}
                         span Followers
                     //-Sistema di conteggio popolarità
-                    span.value #{followingCount*10 + followersCount*20 + likesCount*5 + retweetsCount*10 + likePost}
+                    span.value #{followingCount*10 + followersCount*20 + likesCount + retweetsCount*10 + likePost*5}
                     span Popolarità
 
         .tabsContainer
