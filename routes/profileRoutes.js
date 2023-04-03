@@ -11,7 +11,8 @@ router.get("/", (req, res, next) => {
         pageTitle: req.session.user.username,
         userLoggedIn: req.session.user,
         userLoggedInJs: JSON.stringify(req.session.user),
-        profileUser: req.session.user
+        profileUser: req.session.user,
+        //- devo passare un oggetto con dentro i post dell'utente
     }
     
     res.status(200).render("profilePage", payload);

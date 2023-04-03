@@ -19,7 +19,7 @@ A social media website written with Node.JS, MongoDB and Socket.IO
     $ cd SocialMedia
     # apt install npm && node
     $ npm install 
-    $ node start app.js
+    $ npm start
 
 
 This will initalise a web server using Express hosting the web-app at http://localhost:3003/
