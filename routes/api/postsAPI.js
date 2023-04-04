@@ -124,8 +124,22 @@ router.put("/:id/like", async (req, res, next) => {
     //Decide whether like or unlike
     var isLiked = req.session.user.likes && req.session.user.likes.includes(postId); 
 
-
     var option = isLiked == true ? "$pull" : "$addToSet";
+
+    // Incrementa numLike per il proprietario del post
+    if(isLiked){
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }else{
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })    
+    }
 
     // Insert/pull user like
     //Checks if likes [array] exists (error handling)
@@ -138,13 +152,6 @@ router.put("/:id/like", async (req, res, next) => {
 
     // Insert/pull post like
     var post = await Post.findByIdAndUpdate(postId, { [option]: { likes: userId } }, { new: true })
-    .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    })
-
-    // Incrementa numLike per il proprietario del post
-    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1} })
     .catch(error => {
         console.log(error);
         res.sendStatus(400);
