@@ -169,6 +169,8 @@ router.post("/:id/retweet", async (req, res, next) => {
     var postId = req.params.id;
     var userId = req.session.user._id;
 
+    var userPost = await Post.findById(postId);
+
     //Try and delete retweet
     var deletedPost = await Post.findOneAndDelete({ postedBy: userId, retweetData: postId })
     .catch(error => {
@@ -202,6 +204,21 @@ router.post("/:id/retweet", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
+
+    // Incrementa numRetweet per il proprietario del post
+    if(deletedPost){
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }else{
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })    
+    }
 
     if(!deletedPost)
     {
