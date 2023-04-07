@@ -19,20 +19,19 @@ router.get("/", (req, res, next) => {
 router.post("/", async (req, res, next) => {
 
     var firstName = req.body.firstName.trim();
-    //-var lastName = req.body.lastName.trim();
+    var lastName = req.body.lastName.trim();
     var username = req.body.username.trim();
-    //-var email = req.body.email.trim();
+    var email = req.body.email.trim();
     var password = req.body.password;
 
     var payload = req.body;
 
-    if(firstName //- && lastName && email
-     && username && password) 
+    if(firstName && lastName && email && username && password) 
     {
         var user = await User.findOne({
             $or: [
                 { username: username },
-                //- { email: email }
+                { email: email }
             ]
         })
         .catch((error) => {
@@ -61,12 +60,11 @@ router.post("/", async (req, res, next) => {
         else 
         {
             // User found
-        //- if (email == user.email) {
-        //-      payload.errorMessage = "Email already in use.";
-            //_}
-            //-else {
-               //- payload.errorMessage = "Username already in use.";
-            //-}
+            if (email == user.email) {
+                payload.errorMessage = "Email already in use.";
+            } else {
+                payload.errorMessage = "Username already in use.";
+            }
             res.status(200).render("register", payload);
         }
         
