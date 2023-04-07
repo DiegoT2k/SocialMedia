@@ -109,8 +109,6 @@ router.post("/", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
-
-
     
 })
 
@@ -141,7 +139,7 @@ router.put("/:id/like", async (req, res, next) => {
         })    
     }
 
-    // Insert/pull user like
+    //Insert/pull user like
     //Checks if likes [array] exists (error handling)
     //req.session.user updated after operation 
     req.session.user = await User.findByIdAndUpdate(userId, { [option]: { likes: postId } }, { new: true })
