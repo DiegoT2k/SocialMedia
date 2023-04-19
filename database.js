@@ -17,7 +17,7 @@ class Database {
     }
 
     connect() {
-        mongoose.connect("mongodb://localhost:27017/prova")
+        mongoose.connect("mongodb://localhost:27017/Social")
         .then(() => {
             console.log("database connection successful");
         })

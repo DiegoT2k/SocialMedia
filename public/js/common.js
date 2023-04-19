@@ -427,7 +427,7 @@ function createPostHtml(postData, largeFont = false)
         return console.log("User object not populated");
     }
 
-    var displayName = postedBy.firstName + " " + postedBy.lastName;
+    var displayName = postedBy.firstName;
     var timestamp = timeDifference(new Date(), new Date(postData.createdAt));
 
     var likeButtonActiveClass = postData.likes.includes(userLoggedIn._id) ? "active" : "";
@@ -980,7 +980,7 @@ function createPositionHtml(userData, largeFont = false)
     if(userData == null) return alert("Post object is null"); //for development
 
     var largeFontClass = largeFont ? "largeFont" : "";
-    var displayName = userData.firstName + " " + userData.lastName;
+    var displayName = userData.firstName;
     return `<div class='post ${largeFontClass}' data-id='${userData._id}'>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
