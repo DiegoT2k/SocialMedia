@@ -37,6 +37,7 @@ const uploadRoute = require('./routes/uploadRoutes');
 const searchRoute = require('./routes/searchRoutes');
 const messagesRoute = require('./routes/messagesRoutes');
 const notificationsRoute = require('./routes/notificationsRoutes');
+const positionRoute = require('./routes/positionRoutes');
 
 // API Routes
 const postsApiRoute = require('./routes/api/postsAPI');
@@ -44,6 +45,7 @@ const usersApiRoute = require('./routes/api/usersAPI');
 const chatsApiRoute = require('./routes/api/chatsAPI');
 const messagesApiRoute = require('./routes/api/messagesAPI');
 const notificationsApiRoute = require('./routes/api/notificationsAPI');
+const positionsApiRoute = require('./routes/api/positionsAPI');
 
 
 //Use Routes
@@ -56,6 +58,7 @@ app.use("/uploads", uploadRoute);
 app.use("/search", middleware.requireLogin, searchRoute);
 app.use("/messages", middleware.requireLogin, messagesRoute);
 app.use("/notifications", middleware.requireLogin, notificationsRoute);
+app.use("/position", middleware.requireLogin, positionRoute);
 
 //Use API Routes
 app.use("/api/posts", postsApiRoute);
@@ -63,6 +66,7 @@ app.use("/api/users", usersApiRoute);
 app.use("/api/chats", chatsApiRoute);
 app.use("/api/messages", messagesApiRoute);
 app.use("/api/notifications", notificationsApiRoute);
+app.use("/api/position", positionsApiRoute);
 
 
 app.get("/", middleware.requireLogin, (req, res, next) => {

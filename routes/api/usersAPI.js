@@ -64,7 +64,39 @@ router.put("/:userId/follow", async (req, res, next) => {
     if(!isFollowing)
     {
         await Notification.insertNotification(userId, req.session.user._id, "follow", req.session.user._id);
+        
+        req.session.user = await User.findByIdAndUpdate(req.session.user._id, { $inc : {punteggio : +10} })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+
+        User.findByIdAndUpdate(userId, { $inc : {punteggio : +20} })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }else{
+        req.session.user = await User.findByIdAndUpdate(req.session.user._id, { $inc : {punteggio : -10} })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    
+        User.findByIdAndUpdate(userId, { $inc : {punteggio : -20} })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
     }
+    
+
+
+    req.session.user = await User.findByIdAndUpdate(req.session.user._id, { [option]: { following: userId } })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
 
     res.status(200).send(req.session.user);
 })

@@ -949,3 +949,54 @@ function getUserChatImageElement(user)
 
     return `<img src='${user.profilePic}' alt='User's profile pic'>`;
 }
+
+
+function outputPosition(results, container)
+{
+    console.log("ciao");
+    container.html("");
+
+    //Converts results to array
+    if(!Array.isArray(results))
+    {
+        results = [results];
+    }
+
+    results.forEach(result => {
+        console.log(result);
+        var html = createPositionHtml(result)
+        container.append(html);
+    });
+
+    if(results.length == 0)
+    {
+        container.append("<span class='noResults'>Nothing to show.</span>")
+    }
+}
+
+
+function createPositionHtml(userData, largeFont = false) 
+{
+    if(userData == null) return alert("Post object is null"); //for development
+
+    var largeFontClass = largeFont ? "largeFont" : "";
+    var displayName = userData.firstName + " " + userData.lastName;
+    return `<div class='post ${largeFontClass}' data-id='${userData._id}'>
+                <div class='mainContentContainer'>
+                    <div class='userImageContainer'>
+                        <img src='${userData.profilePic}'>
+                    </div>
+
+                    <div class='postContentContainer'>
+                    <div class='postHeader'>
+                        <a href='/profile/${userData.username}' class='displayName'>${displayName}</a>
+                        <span class='username'>@${userData.username}</span>
+                    </div>
+                    <div class='postBody'>
+                        <span>Popolarità: ${userData.punteggio}</span>
+                    </div>
+
+                    
+                </div>    
+            </div>`;
+}

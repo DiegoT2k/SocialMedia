@@ -15,7 +15,8 @@ const UserSchema = new Schema({
     following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     numLike: {type: Number, default: 0},
-    numRetweet: {type: Number, default: 0}
+    numRetweet: {type: Number, default: 0},
+    punteggio: {type: Number, default: 0}
 }, { timestamps: true });
 
 var User = mongoose.model('User', UserSchema);
