@@ -853,12 +853,12 @@ function getNotificationText(notification)
 {
     var userFrom = notification.userFrom;
 
-    if(!userFrom.firstName || !userFrom.lastName)
+    if(!userFrom.firstName) //|| !userFrom.lastName
     {
-        return alert("user from data not populated"); //FOR DEVELOPMENT
+        return alert("user from data not populated");
     }
 
-    var userFromName = `${userFrom.firstName} ${userFrom.lastName}`;
+    var userFromName = `${userFrom.firstName}`;
 
     var text;
 
