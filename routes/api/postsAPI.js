@@ -66,9 +66,9 @@ router.get("/:id", async (req, res, next) => {
         postData: postData
     }
 
-    if(postData.replyTo !== undefined) 
+    if(postData !== undefined) 
     {
-        results.replyTo = postData.replyTo;
+       results.replyTo = postData.replyTo;
     }
 
     results.replies = await getPosts({ replyTo: postId });

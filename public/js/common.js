@@ -411,7 +411,7 @@ function getPostIdFromElement (element)
 
 function createPostHtml(postData, largeFont = false) 
 {
-    if(postData == null) return alert("Post object is null"); //for development
+    //if(postData == null) return alert("Post object is null"); 
 
     var isRetweet = postData.retweetData !== undefined;
     var retweetedBy = isRetweet == true ? postData.postedBy.username : null;
@@ -977,7 +977,7 @@ function outputPosition(results, container)
 
 function createPositionHtml(userData, largeFont = false) 
 {
-    if(userData == null) return alert("Post object is null");
+    //if(userData == null) return alert("Post object is null");
 
     var largeFontClass = largeFont ? "largeFont" : "";
     var displayName = userData.firstName;
