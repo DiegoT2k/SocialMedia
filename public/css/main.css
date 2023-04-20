@@ -199,6 +199,16 @@ nav a:hover
     flex-shrink: 0;
 }
 
+.postPosition
+{
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing);
+    cursor: pointer;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+
 /* Post Content Styling */
 button
 {

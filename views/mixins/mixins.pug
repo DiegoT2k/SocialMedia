@@ -35,10 +35,10 @@ mixin createDeletePostModal()
                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='true') &times;
                 .modal-body
-                    p You won't be able to delete this.
+                    p You will be redirected to the homepage.
                 .modal-footer
                     button.btn.btn-secondary(type='button', data-dismiss='modal') Close
-                    button#deletePostButton.btn.btn-primary(type='button') Delete
+                    button#deletePostButton.btn.btn-primary(type='button' onclick="location.href='/'") Delete
 
 mixin createPostModals(userLoggedIn)
     +createReplyModal(userLoggedIn)

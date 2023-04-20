@@ -488,7 +488,7 @@ function createPostHtml(postData, largeFont = false)
         }
 
         buttons = `<button class='pinButton ${pinnedClass}' data-id="${postData._id}" data-toggle="modal" data-target="${dataTarget}"><i class='fas fa-thumbtack'></i></button>
-                    <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fas fa-times'></i></button>`;
+        <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fas fa-times'></i></button>`;
     }
 
     return `<div class='post ${largeFontClass}' data-id='${postData._id}'>
@@ -977,11 +977,11 @@ function outputPosition(results, container)
 
 function createPositionHtml(userData, largeFont = false) 
 {
-    if(userData == null) return alert("Post object is null"); //for development
+    if(userData == null) return alert("Post object is null");
 
     var largeFontClass = largeFont ? "largeFont" : "";
     var displayName = userData.firstName;
-    return `<div class='post ${largeFontClass}' data-id='${userData._id}'>
+    return `<div class='postPosition'>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
                         <img src='${userData.profilePic}'>
