@@ -1,7 +1,3 @@
-/**
- * @constant io is being used in /public/js/clientSocket.js
- * Socket.IO on the client connected back via @constant port = XXXX;
- */
 const express = require('express');
 const app = express();
 const port = 3003;
@@ -46,7 +42,6 @@ const chatsApiRoute = require('./routes/api/chatsAPI');
 const messagesApiRoute = require('./routes/api/messagesAPI');
 const notificationsApiRoute = require('./routes/api/notificationsAPI');
 const positionsApiRoute = require('./routes/api/positionsAPI');
-
 
 //Use Routes
 app.use("/login", loginRoute);

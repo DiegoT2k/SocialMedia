@@ -8,7 +8,7 @@ const User = require('../schemas/UserSchema');
 router.get("/", (req, res, next) => {
     
     var payload = {
-        pageTitle: "Classifica"
+        pageTitle: "Results"
     }
 
     res.status(200).render("positionPage", payload);
