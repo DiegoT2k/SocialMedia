@@ -6,6 +6,8 @@ mixin createPostForm(userLoggedIn)
             textarea#postTextarea(placeholder="What's happening?")
             .buttonsContainer
                 button#submitPostButton(disabled="") Post
+                //-button.postPictureButton(data-toggle="modal", data-target="#imagePostUploadModal")
+                    i.fas.fa-camera
 
 mixin createReplyModal(userLoggedIn)
     #replyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='replyModalLabel', aria-hidden='true')
@@ -45,6 +47,7 @@ mixin createPostModals(userLoggedIn)
     +createDeletePostModal()
     +createPinnedPostModal()
     +createUnpinPostModal()
+    +createPostUploadModal()
 
 mixin createFollowButton(user, isFollowing)
     - text = isFollowing ? "Following" : "Follow"
@@ -73,6 +76,23 @@ mixin createImageUploadModal()
                 .modal-footer
                     button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
                     button#imageUploadButton.btn.btn-primary(type='button') Save
+
+mixin createPostUploadModal()
+    #imagePostUploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='imageUploadModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#imagePostUploadModalLabel.modal-title Upload a new picture
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    input#postPhoto(type="file", name="postPhoto")
+
+                    .imagePreviewContainer
+                        img#imagePreview
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                    button#postUploadButton.btn.btn-primary(type='button') Save
 
 mixin createCoverPhotoUploadModal()
     #coverPhotoUploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='coverPhotoModalLabel', aria-hidden='true')

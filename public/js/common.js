@@ -154,6 +154,30 @@ $("#filePhoto").change(function(){
     }
 })
 
+$("#postPhoto").change(function(){    
+    if(this.files && this.files[0])  //checks for empty array
+    {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            var image = document.getElementById("imagePreview");
+            image.src = e.target.result;
+
+            if(cropper !== undefined)
+                cropper.destroy();
+            
+            cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                background: false
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+    else 
+    {
+        console.log("nope")
+    }
+})
+
 $("#coverPhoto").change(function(){    
     if(this.files && this.files[0]) {
         var reader = new FileReader();
@@ -190,6 +214,30 @@ $("#imageUploadButton").click(() => {
 
         $.ajax({
             url: "/api/users/profilePicture",
+            type: "POST",
+            data: formData,
+            processData: false, //stop JS converting to STR
+            contentType: false, //for submitting files
+            success: (data, status, xhr) => location.reload()
+        })
+    })
+})
+
+$("#postUploadButton").click(() => {
+    var canvas = cropper.getCroppedCanvas();
+
+    if(canvas == null) 
+    {
+        alert("Could not upload image. Make sure it is an image file.");
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        var formData = new FormData();
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/posts/postPicture",
             type: "POST",
             data: formData,
             processData: false, //stop JS converting to STR
@@ -511,6 +559,7 @@ function createPostHtml(postData, largeFont = false)
                         <div class='postBody'>
                             <span>${postData.content}</span>
                         </div>
+
                         <div class='postFooter'>
                             <div class='postButtonContainer'>
                                 <button data-toggle='modal' data-target='#replyModal'>

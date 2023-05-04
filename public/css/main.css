@@ -15,6 +15,7 @@
     --greenBackground: rgba(23,191,99,0.1);
     --scrollbarWidthSlim: 6px; 
     --scrollbarBgColourGradient: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
+    --blueDark: rgb(50, 34, 226);
 }
 
 html, body
@@ -290,10 +291,20 @@ button span
     color: var(--red);
 }
 
-/*** https://encycolorpedia.com/00acee */
 .postButtonContainer.red button:hover
 {
     color: var(--red);
+    background-color: var(--redBackground);
+}
+
+.postButtonContainer.blueDark button.active 
+{
+    color: var(--blueDark);
+}
+
+.postButtonContainer.blueDark button:hover
+{
+    color: var(--blueDark);
     background-color: var(--redBackground);
 }
 
@@ -517,6 +528,13 @@ button span
 .coverPhotoSection:hover .coverPhotoButton
 {
     display: block;
+}
+
+.postPictureBotton
+{
+    position: absolute;
+    font-size: 50px;
+    color: rgba(0,0,0, 0.6);
 }
 
 #imagePreview
