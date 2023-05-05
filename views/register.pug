@@ -10,9 +10,18 @@ block content
             input(type="text", name="firstName", placeholder="Name and surname", value=firstName required="")
             //-input(type="text", name="lastName", placeholder="Last name", value=lastName required="")
             input(type="text", name="username", placeholder="Username", value=username required="")
-            //-input(type="email", name="email", placeholder="Email", value=email required="")
             input#password(type="password", name="password", placeholder="Password", required="")
             input#passwordConf(type="password", name="passwordConf", placeholder="Confirm password", required="")
+            
+            <select name="profilePic" onchange="visualizzaImmagineSelezionata()" required="">
+                <option value="">Select profile picture</option>
+                <option data-immagine="/images/topolino2.jpeg" value="/images/topolino.jpeg">Topolino</option>
+                <option data-immagine="/images/pluto2.jpeg" value="/images/pluto.jpeg">Pluto</option>
+                <option data-immagine="/images/paperino2.jpeg" value="/images/paperino.jpeg">Paperino</option>
+            </select>
+
+            <div id="immagineSelezionata"></div>
+           
             input(type="submit", value="Register")
 
         a(href="/login") Already have an account? Login here.
@@ -28,5 +37,15 @@ block content
             }
             else {
                 form.submit();
+            }
+        }
+
+        function visualizzaImmagineSelezionata() {
+            var select = document.querySelector('select[name="profilePic"]');
+            var immagineSelezionata = select.options[select.selectedIndex].getAttribute('data-immagine');
+            if(immagineSelezionata === null){
+                document.getElementById('immagineSelezionata').innerHTML = '';
+            }else{
+            document.getElementById("immagineSelezionata").innerHTML = '<img src="' + immagineSelezionata + '">';
             }
         }

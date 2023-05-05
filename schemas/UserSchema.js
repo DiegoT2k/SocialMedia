@@ -8,17 +8,7 @@ const UserSchema = new Schema({
     username: { type: String, required: true, trim: true, unique: true },
     //email: { type: String, required: false, trim: true, unique: true },
     password: { type: String, required: true },
-    profilePic: { type: String, default: function(){
-        const randomValue = Math.floor(Math.random() * 3);
-        switch (randomValue){
-            case 0: 
-                return '/images/pluto.jpeg';
-            case 1:
-                return '/images/paperino.jpeg';
-            default:
-                return '/images/topolino.jpeg';
-        }
-    } },
+    profilePic: { type: String, required: true },
     coverPhoto: { type: String },
     likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
     retweets: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
