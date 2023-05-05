@@ -128,30 +128,61 @@ router.put("/:id/like", async (req, res, next) => {
 
     var option = isLiked == true ? "$pull" : "$addToSet";
 
+    const user = await User.findById(userId);
+
     // Incrementa numLike per il proprietario del post
     if(isLiked){
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -5} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -5} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
+        
+        if(user.special){
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -10} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -10} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+        }else{
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -5} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -5} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+        }
 
     }else{
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 5} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })    
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 5} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })   
+
+        if(user.special){
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : +10} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : +10} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+        }else{
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 5} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 5} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            });
+        } 
+
     }
 
     //Insert/pull user like

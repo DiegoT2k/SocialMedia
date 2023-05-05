@@ -65,12 +65,8 @@ router.post("/", async (req, res, next) => {
         else 
         {
             // User found
-            //if (email == user.email) {
-              //  payload.errorMessage = "Email already in use.";
-            //} else {
 
             payload.errorMessage = "Username already in use.";
-            //}
             res.status(200).render("register", payload);
         }
         
