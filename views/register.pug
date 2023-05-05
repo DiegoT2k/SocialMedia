@@ -8,16 +8,16 @@ block content
             p.errorMessage #{errorMessage}
 
             input(type="text", name="firstName", placeholder="Name and surname", value=firstName required="")
-            //-input(type="text", name="lastName", placeholder="Last name", value=lastName required="")
             input(type="text", name="username", placeholder="Username", value=username required="")
             input#password(type="password", name="password", placeholder="Password", required="")
             input#passwordConf(type="password", name="passwordConf", placeholder="Confirm password", required="")
-            
+            <input type="hidden" id="bio" name="bio">
+
             <select name="profilePic" onchange="visualizzaImmagineSelezionata()" required="">
                 <option value="">Select profile picture</option>
-                <option data-immagine="/images/topolino2.jpeg" value="/images/topolino.jpeg">Topolino</option>
-                <option data-immagine="/images/pluto2.jpeg" value="/images/pluto.jpeg">Pluto</option>
-                <option data-immagine="/images/paperino2.jpeg" value="/images/paperino.jpeg">Paperino</option>
+                <option data-immagine="/images/topolino2.jpeg" value="/images/topolino.jpeg" data-bio="Bio per Topolino">Topolino</option>
+                <option data-immagine="/images/pluto2.jpeg" value="/images/pluto.jpeg" data-bio="Bio per Pluto">Pluto</option>
+                <option data-immagine="/images/paperino2.jpeg" value="/images/paperino.jpeg" data-bio="Bio per Paperino">Paperino</option>
             </select>
 
             <div id="immagineSelezionata"></div>
@@ -43,9 +43,11 @@ block content
         function visualizzaImmagineSelezionata() {
             var select = document.querySelector('select[name="profilePic"]');
             var immagineSelezionata = select.options[select.selectedIndex].getAttribute('data-immagine');
+            var bio = select.options[select.selectedIndex].getAttribute('data-bio');
             if(immagineSelezionata === null){
                 document.getElementById('immagineSelezionata').innerHTML = '';
             }else{
             document.getElementById("immagineSelezionata").innerHTML = '<img src="' + immagineSelezionata + '">';
             }
+            document.getElementById("bio").value = bio;
         }

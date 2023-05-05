@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     //email: { type: String, required: false, trim: true, unique: true },
     password: { type: String, required: true },
     profilePic: { type: String, required: true },
+    bio: { type: String },
     coverPhoto: { type: String },
     likes: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
     retweets: [{ type: Schema.Types.ObjectId, ref: 'Post' }],

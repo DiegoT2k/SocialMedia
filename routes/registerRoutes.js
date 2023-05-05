@@ -19,15 +19,18 @@ router.get("/", (req, res, next) => {
 router.post("/", async (req, res, next) => {
 
     var firstName = req.body.firstName.trim();
-    //-var lastName = req.body.lastName.trim();
     var username = req.body.username.trim();
-    //-var email = req.body.email.trim();
     var password = req.body.password;
     var profilePic = req.body.profilePic;
+    var bio = req.body.bio;
 
-    console.log(profilePic);
-
-    var payload = req.body;
+    var payload = {
+        firstName: firstName,
+        username: username,
+        password: password,
+        profilePic: profilePic,
+        bio: bio
+      };
 
     if(firstName && username && password) 
     {
@@ -65,7 +68,7 @@ router.post("/", async (req, res, next) => {
             //if (email == user.email) {
               //  payload.errorMessage = "Email already in use.";
             //} else {
-            console.log("trovato");
+
             payload.errorMessage = "Username already in use.";
             //}
             res.status(200).render("register", payload);
