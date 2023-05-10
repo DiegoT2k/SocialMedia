@@ -27,7 +27,8 @@ $("#postTextarea, #replyTextarea").keyup((event) => {
     submitButton.prop("disabled", false);
 })
 
-$("#submitPostButton, #submitReplyButton").click(() => {
+$("#submitPostButton, #submitReplyButton").click((event) => {
+
     var button = $(event.target);
 
     var isModal = button.parents(".modal").length == 1;
@@ -49,17 +50,20 @@ $("#submitPostButton, #submitReplyButton").click(() => {
 
         if(postData.replyTo)
         {
-            emitNotification(postData.replyTo.postedBy)
+            emitNotification(postData.replyTo.postedBy);
             location.reload();
         }
         else
         {
+            emitNotification(postData);
+
             var html = createPostHtml(postData);
             $(".postsContainer").prepend(html);
             textbox.val("");
             button.prop("disabled", true);
         }
     })
+
 })
 
 $("#replyModal").on("show.bs.modal", (event) => {
@@ -359,6 +363,28 @@ $(document).on("click", ".likeButton" ,(event) => {
     })
 })
 
+$(document).on("click", ".commentButton" ,(event) => {
+    var button = $(event.target);
+    var postId = getPostIdFromElement(button);
+    
+    if(postId === undefined) return; //Error handling
+
+    $.ajax({
+        url: `/api/posts/${postId}/comment`,
+        type: "PUT",
+        success: (postData) => {
+            
+            button.find("span").text(postData.comments.length || "");
+
+            if(postData.likes.includes(userLoggedIn._id)) 
+            {
+                emitNotification(postData.postedBy)
+            }
+ 
+        }
+    })
+})
+
 $(document).on("click", ".retweetButton", (event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
@@ -479,7 +505,9 @@ function createPostHtml(postData, largeFont = false)
     var timestamp = timeDifference(new Date(), new Date(postData.createdAt));
 
     var likeButtonActiveClass = postData.likes.includes(userLoggedIn._id) ? "active" : "";
+    var commentButtonActiveClass = postData.comments.includes(userLoggedIn._id) ? "active" : "";
     var retweetButtonActiveClass = postData.retweetUsers.includes(userLoggedIn._id) ? "active" : "";
+
     var largeFontClass = largeFont ? "largeFont" : "";
 
     var retweetText = '';
@@ -561,9 +589,10 @@ function createPostHtml(postData, largeFont = false)
                         </div>
 
                         <div class='postFooter'>
-                            <div class='postButtonContainer'>
-                                <button data-toggle='modal' data-target='#replyModal'>
+                            <div class='postButtonContainer red'>
+                                <button class='commentButton' data-toggle='modal' data-target='#replyModal'>
                                     <i class='far fa-comment'></i>
+                                    <span>${postData.comments.length || ""}</span>
                                 </button>
                             </div>
                             <div class='postButtonContainer green'>
@@ -853,6 +882,7 @@ function showNotificationPopup(data)
     //var duration = 5000; //How long to display
 
     setTimeout(() => element.fadeOut(400), 5000);
+ 
 }
 
 function showMessagePopup(data)
@@ -1002,7 +1032,6 @@ function getUserChatImageElement(user)
 
 function outputPosition(results, container)
 {
-    console.log("ciao");
     container.html("");
 
     //Converts results to array
@@ -1012,7 +1041,6 @@ function outputPosition(results, container)
     }
 
     results.forEach(result => {
-        console.log(result);
         var html = createPositionHtml(result)
         container.append(html);
     });

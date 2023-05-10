@@ -66,6 +66,8 @@ router.get("/:id", async (req, res, next) => {
     var postData = await getPosts({ _id: postId });
     postData = postData[0];
 
+    var userPost = Post.findById(postId);
+
     var results = {
         postData: postData
     }
@@ -134,7 +136,7 @@ router.put("/:id/like", async (req, res, next) => {
     if(isLiked){
         
         if(user.special){
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -10} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -150,7 +152,7 @@ router.put("/:id/like", async (req, res, next) => {
                 console.log(error);
                 res.sendStatus(400);
             });
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -5} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -160,7 +162,7 @@ router.put("/:id/like", async (req, res, next) => {
     }else{
 
         if(user.special){
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : +10} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -176,7 +178,7 @@ router.put("/:id/like", async (req, res, next) => {
                 console.log(error);
                 res.sendStatus(400);
             });
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 5} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -207,6 +209,149 @@ router.put("/:id/like", async (req, res, next) => {
     }
 
     res.status(200).send(post);
+})
+
+router.put("/:id/comment", async (req, res, next) => {
+
+    var postId = req.params.id;
+    var userId = req.session.user._id;
+
+    var userPost = await Post.findById(postId); 
+
+    var option = "$push";
+
+    //Insert/pull user comments
+    //Checks if likes [array] exists (error handling)
+    //req.session.user updated after operation 
+    req.session.user = await User.findByIdAndUpdate(userId, { [option]: { comments: postId } }, { new: true })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+
+    // Insert/pull post comment
+    var post = await Post.findByIdAndUpdate(postId, { [option]: { comments: userId } }, { new: true })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+
+    // Incrementa numComment per il proprietario del post    
+    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numComment : 1} } )
+    .catch(error => {
+    console.log(error);
+    res.sendStatus(400);
+    });
+    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 1} } )
+        .catch(error => {            
+        console.log(error);
+        res.sendStatus(400);
+    });
+
+    res.status(200).send(post);
+})
+
+router.post("/:id/retweet", async (req, res, next) => {
+    var postId = req.params.id;
+    var userId = req.session.user._id;
+
+    var userPost = await Post.findById(postId);
+
+    //Try and delete retweet
+    var deletedPost = await Post.findOneAndDelete({ postedBy: userId, retweetData: postId })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+
+    var option = deletedPost != null ? "$pull" : "$addToSet";
+
+    var repost = deletedPost;
+
+    if(repost == null)
+    {
+        repost = await Post.create({ postedBy: userId, retweetData: postId })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }
+
+    // Insert/pull user retweet
+    req.session.user = await User.findByIdAndUpdate(userId, { [option]: { retweets: repost._id } }, { new: true })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+
+    // Insert/pull post retweet
+    var post = await Post.findByIdAndUpdate(postId, { [option]: { retweetUsers: userId } }, { new: true })
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+
+    // Incrementa numRetweet per il proprietario del post
+    if(deletedPost){
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -20} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }else{
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })    
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 20} } )
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }
+
+    if(!deletedPost)
+    {
+        await Notification.insertNotification(post.postedBy, userId, "retweet", post._id);
+    }
+
+    res.status(200).send(post);
+})
+
+router.delete("/:id", (req, res, next) => {
+    Post.findByIdAndDelete(req.params.id)
+    .then(() => res.sendStatus(202))
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+})
+
+router.put("/:id", async (req, res, next) => {
+
+    //Set all our posts to pinned==false
+    //Current allows one pinned post
+    if(req.body.pinned !== undefined)
+    {
+        await Post.updateMany({postedBy: req.session.user }, { pinned: false })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        })
+    }
+
+    Post.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => res.sendStatus(204))
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
 })
 
 router.post("/:id/retweet", async (req, res, next) => {
@@ -291,7 +436,6 @@ router.delete("/:id", (req, res, next) => {
     })
 })
 
-
 router.put("/:id", async (req, res, next) => {
 
     //Set all our posts to pinned==false
@@ -312,7 +456,6 @@ router.put("/:id", async (req, res, next) => {
         res.sendStatus(400);
     })
 })
-
 
 router.post("/postPicture", upload.single("croppedImage"), async (req, res, next) => {
     if(!req.file) 

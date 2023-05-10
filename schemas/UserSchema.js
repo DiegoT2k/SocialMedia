@@ -15,6 +15,7 @@ const UserSchema = new Schema({
     followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     numLike: {type: Number, default: 0 },
     numRetweet: { type: Number, default: 0 },
+    numComment: { type: Number, default: 0 },
     punteggio: { type: Number, default: 0 },
     special: { type: Boolean, default: false }
 }, { timestamps: true });
