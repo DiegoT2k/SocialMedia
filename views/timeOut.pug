@@ -1,0 +1,13 @@
+extends layouts/main-layout.pug
+
+block content
+
+    h5 Per 10 secondi non puoi fare nessuna azione 
+        script.
+            document.body.style.pointerEvents = "none";
+            // attende 10 secondi
+            setTimeout(function() {
+                // carica la pagina home alla fine dei 10 secondi
+                document.body.style.pointerEvents = "auto";
+                location.href = "/";
+            }, #{tempo}*1000);

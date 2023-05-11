@@ -34,6 +34,7 @@ const searchRoute = require('./routes/searchRoutes');
 const messagesRoute = require('./routes/messagesRoutes');
 const notificationsRoute = require('./routes/notificationsRoutes');
 const positionRoute = require('./routes/positionRoutes');
+const timeOutRoute = require('./routes/timeOutRoutes');
 
 // API Routes
 const postsApiRoute = require('./routes/api/postsAPI');
@@ -54,6 +55,7 @@ app.use("/search", middleware.requireLogin, searchRoute);
 app.use("/messages", middleware.requireLogin, messagesRoute);
 app.use("/notifications", middleware.requireLogin, notificationsRoute);
 app.use("/position", middleware.requireLogin, positionRoute);
+app.use("/timeOut", middleware.requireLogin, timeOutRoute);
 
 //Use API Routes
 app.use("/api/posts", postsApiRoute);
