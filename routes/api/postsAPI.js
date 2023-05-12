@@ -59,6 +59,43 @@ router.get("/", async (req, res, next) => {
     res.status(200).send(results);
 })
 
+router.get("/:id/:frase", async (req, res, next) => {
+
+    var postData = {
+        postedBy: req.params.id,
+        content: req.params.frase
+    }
+
+    var payload = {
+        pageTitle: "Home",
+		userLoggedIn: req.session.user,
+		userLoggedInJs: JSON.stringify(req.session.user),
+    }
+    var postId;
+    Post.create(postData)
+    .then(async (newPost) => {
+        newPost = await User.populate(newPost, { path: "postedBy" })
+        newPost = await Post.populate(newPost, { path: "replyTo" })
+        postId = newPost._id
+    })
+    .then(() => {
+        // Esegui il reindirizzamento a "/" senza i parametri dell'URL
+        res.redirect("/");
+
+        setTimeout(() => {
+            Post.findByIdAndDelete(postId).catch((error) => {
+                console.error(error);
+            });
+        }, 10000);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.sendStatus(500);
+    });
+
+
+})
+
 router.get("/:id", async (req, res, next) => {
 
     var postId = req.params.id;

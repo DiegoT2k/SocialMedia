@@ -2,12 +2,23 @@ extends layouts/main-layout.pug
 
 block content
 
-    h5 Per 10 secondi non puoi fare nessuna azione 
+    .post
+        h5 Sei stato bloccato!
+        h5 Attendi <span id="countdown"></span> secondi
+        
         script.
+            var countdown = #{tempo};
             document.body.style.pointerEvents = "none";
-            // attende 10 secondi
-            setTimeout(function() {
-                // carica la pagina home alla fine dei 10 secondi
-                document.body.style.pointerEvents = "auto";
-                location.href = "/";
-            }, #{tempo}*1000);
+
+
+            var timer = setInterval(function(){
+                countdown--;
+
+                document.getElementById("countdown").innerHTML = countdown;
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        document.body.style.pointerEvents = "auto";
+                        location.href = "/";
+                    }
+
+            }, 1000);
