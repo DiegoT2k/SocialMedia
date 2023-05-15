@@ -105,6 +105,23 @@ router.get("/:id", async (req, res, next) => {
 
     var userPost = Post.findById(postId);
 
+    var userPost = await Post.findById(postId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
+
+    var payload = {
+        pageTitle: "Home",
+		userLoggedIn: req.session.user,
+		userLoggedInJs: JSON.stringify(req.session.user),
+    }
+
+    if(!userPost || !userPost.postedBy){
+        res.status(200).render("home", payload);
+        return;
+    }
+
     var results = {
         postData: postData
     }
@@ -160,14 +177,33 @@ router.put("/:id/like", async (req, res, next) => {
     var postId = req.params.id;
     var userId = req.session.user._id;
 
-    var userPost = await Post.findById(postId);
+    var userPost = await Post.findById(postId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
+
+    var payload = {
+        pageTitle: "Home",
+		userLoggedIn: req.session.user,
+		userLoggedInJs: JSON.stringify(req.session.user),
+    }
+
+    if(!userPost || !userPost.postedBy){
+        res.status(200).render("home", payload);
+        return;
+    }
 
     //Decide whether like or unlike
     var isLiked = req.session.user.likes && req.session.user.likes.includes(postId); 
 
     var option = isLiked == true ? "$pull" : "$addToSet";
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
 
     // Incrementa numLike per il proprietario del post
     if(isLiked){
@@ -255,6 +291,11 @@ router.put("/:id/comment", async (req, res, next) => {
 
     var userPost = await Post.findById(postId); 
 
+    if(!userPost || !userPost.postedBy){
+        res.redirect("/");
+        return;
+    }
+
     var option = "$push";
 
     //Insert/pull user comments
@@ -293,6 +334,17 @@ router.post("/:id/retweet", async (req, res, next) => {
     var userId = req.session.user._id;
 
     var userPost = await Post.findById(postId);
+
+    var payload = {
+        pageTitle: "Home",
+		userLoggedIn: req.session.user,
+		userLoggedInJs: JSON.stringify(req.session.user),
+    }
+
+    if(!userPost || !userPost.postedBy){
+        res.status(200).render("home", payload);
+        return;
+    }
 
     //Try and delete retweet
     var deletedPost = await Post.findOneAndDelete({ postedBy: userId, retweetData: postId })
