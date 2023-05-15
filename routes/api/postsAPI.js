@@ -103,25 +103,6 @@ router.get("/:id", async (req, res, next) => {
     var postData = await getPosts({ _id: postId });
     postData = postData[0];
 
-    var userPost = Post.findById(postId);
-
-    var userPost = await Post.findById(postId)            
-        .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    });
-
-    var payload = {
-        pageTitle: "Home",
-		userLoggedIn: req.session.user,
-		userLoggedInJs: JSON.stringify(req.session.user),
-    }
-
-    if(!userPost || !userPost.postedBy){
-        res.status(200).render("home", payload);
-        return;
-    }
-
     var results = {
         postData: postData
     }

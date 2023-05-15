@@ -35,6 +35,7 @@ const messagesRoute = require('./routes/messagesRoutes');
 const notificationsRoute = require('./routes/notificationsRoutes');
 const positionRoute = require('./routes/positionRoutes');
 const timeOutRoute = require('./routes/timeOutRoutes');
+const bonusRoute = require('./routes/bonusRoutes');
 
 // API Routes
 const postsApiRoute = require('./routes/api/postsAPI');
@@ -56,6 +57,7 @@ app.use("/messages", middleware.requireLogin, messagesRoute);
 app.use("/notifications", middleware.requireLogin, notificationsRoute);
 app.use("/position", middleware.requireLogin, positionRoute);
 app.use("/timeOut", middleware.requireLogin, timeOutRoute);
+app.use("/bonus", middleware.requireLogin, bonusRoute);
 
 //Use API Routes
 app.use("/api/posts", postsApiRoute);
