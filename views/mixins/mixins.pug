@@ -4,6 +4,9 @@ mixin createPostForm(userLoggedIn)
             img(src=userLoggedIn.profilePic, alt="User's profile picture")
         .textareaContainer
             textarea#postTextarea(placeholder="What's happening?")
+            //-.inputContainer 
+                label(for="postImage")
+                input#postImage(type="file", accept="image/*")
             .buttonsContainer
                 button#submitPostButton(disabled="") Post
                 //-button.postPictureButton(data-toggle="modal", data-target="#imagePostUploadModal")

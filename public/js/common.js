@@ -470,6 +470,7 @@ $(document).on("click", ".notification.active", (e) => {
     var callback = () => window.location = href;
     markNotificationsAsOpened(notificationId, callback);
 })
+
 //Checks if root or child element
 function getPostIdFromElement (element)
 {
@@ -878,10 +879,10 @@ function showNotificationPopup(data)
     var element = $(html);
     element.hide().prependTo("#notificationList").slideDown("fast"); //270.
 
-    //var speed = 400; //400ms (default)
+    //var speed = 100; //100ms (default)
     //var duration = 5000; //How long to display
 
-    setTimeout(() => element.fadeOut(400), 5000);
+    setTimeout(() => element.fadeOut(100), 5000);
  
 }
 
