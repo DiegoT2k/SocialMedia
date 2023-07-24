@@ -6,6 +6,10 @@ const bcrypt = require("bcrypt");
 const User = require('../schemas/UserSchema');
 
 router.get("/", (req, res, next) => {
-
-    res.status(200).render("cardPage");
+    var payload = {
+        pageTitle: "Pagina con le carte del gioco"
+    }
+    res.status(200).render("cardPage", payload);
 })
+
+module.exports = router;

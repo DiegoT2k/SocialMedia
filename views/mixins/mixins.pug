@@ -3,7 +3,7 @@ mixin createPostForm(userLoggedIn)
         .userImageContainer
             img(src=userLoggedIn.profilePic, alt="User's profile picture")
         .textareaContainer
-            textarea#postTextarea(placeholder="What's happening?")
+            textarea#postTextarea(placeholder="Cosa sta succedendo?\nMassimo 200 caratteri", maxlength="200")
             //-.inputContainer 
                 label(for="postImage")
                 input#postImage(type="file", accept="image/*")
