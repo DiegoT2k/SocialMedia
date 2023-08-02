@@ -231,6 +231,17 @@ button span
     overflow-y: hidden; /* BUG FIX: Message Scrolling */
 }
 
+.stemma{
+    height: 50px;
+    width: 50px;
+    border-radius: 70%;
+    box-shadow: 0 0 5px rgba(231, 73, 25, 0.5);
+}
+
+#immagineSelezionata img{
+    width: 50%;
+    height: 50%;
+}
 .postContentContainer
 {
     padding-left: var(--spacing);
