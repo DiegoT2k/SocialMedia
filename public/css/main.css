@@ -232,10 +232,8 @@ button span
 }
 
 .stemma{
-    height: 50px;
-    width: 50px;
-    border-radius: 70%;
-    box-shadow: 0 0 5px rgba(231, 73, 25, 0.5);
+    height: 48px;
+    width: 48px;
 }
 
 #immagineSelezionata img{
