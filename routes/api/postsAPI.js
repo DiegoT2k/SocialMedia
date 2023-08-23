@@ -190,23 +190,18 @@ router.put("/:id/like", async (req, res, next) => {
     if(isLiked){
         
         if(user.special){
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1} } )
-            .catch(error => {
-                console.log(error);
-                res.sendStatus(400);
-            });
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -10} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1, punteggio : -3} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
         }else{
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -5} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -3, numLike : -1} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1} } )
+            await User.findByIdAndUpdate(user._id, { $inc: { punteggio: -1.5, numLike: -1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -216,23 +211,18 @@ router.put("/:id/like", async (req, res, next) => {
     }else{
 
         if(user.special){
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1} } )
-            .catch(error => {
-                console.log(error);
-                res.sendStatus(400);
-            });
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : +10} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1, punteggio : +3} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
         }else{
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 5} } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 3}, numLike : 1 } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1} } )
+            await User.findByIdAndUpdate(user._id, { $inc: { punteggio: +1.5, numLike: -1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -272,6 +262,12 @@ router.put("/:id/comment", async (req, res, next) => {
 
     var userPost = await Post.findById(postId); 
 
+    const user = await User.findById(userId)            
+    .catch(error => {
+    console.log(error);
+    res.sendStatus(400);
+    });
+
     if(!userPost || !userPost.postedBy){
         res.redirect("/");
         return;
@@ -301,10 +297,15 @@ router.put("/:id/comment", async (req, res, next) => {
     console.log(error);
     res.sendStatus(400);
     });
-    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 1} } )
+    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 5} } )
         .catch(error => {            
         console.log(error);
         res.sendStatus(400);
+    });
+    await User.findByIdAndUpdate(user._id,  { $inc : {punteggio : 2.5} } )
+    .catch(error => {            
+    console.log(error);
+    res.sendStatus(400);
     });
 
     res.status(200).send(post);
@@ -315,7 +316,11 @@ router.post("/:id/retweet", async (req, res, next) => {
     var userId = req.session.user._id;
 
     var userPost = await Post.findById(postId);
-
+    const user = await User.findById(userId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
     var payload = {
         pageTitle: "Home",
 		userLoggedIn: req.session.user,
@@ -363,23 +368,23 @@ router.post("/:id/retweet", async (req, res, next) => {
 
     // Incrementa numRetweet per il proprietario del post
     if(deletedPost){
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1} } )
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1, punteggio:-4} } )
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
         })
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -20} } )
+        await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : -1, punteggio:-2} } )
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
         })
     }else{
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1} } )
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1, punteggio:4} } )
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
-        })    
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 20} } )
+        })
+        await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : 1, punteggio:2} } )
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
@@ -428,6 +433,12 @@ router.post("/:id/retweet", async (req, res, next) => {
     var postId = req.params.id;
     var userId = req.session.user._id;
 
+    const user = await User.findById(userId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
+
     var userPost = await Post.findById(postId);
 
     //Try and delete retweet
@@ -466,27 +477,27 @@ router.post("/:id/retweet", async (req, res, next) => {
 
     // Incrementa numRetweet per il proprietario del post
     if(deletedPost){
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -20} } )
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1, punteggio: -4} } )
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
-        })
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -20} } )
+        });
+        await User.findByIdAndUpdate(user._id, { $inc: { punteggio: -2, numRetweet: -1 } })
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
-        })
+        });
     }else{
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 20} } )
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1, punteggio:4} } )
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
-        })    
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 20} } )
+        });
+        await User.findByIdAndUpdate(user._id, { $inc: { punteggio: 2, numRetweet: 1 } })
         .catch(error => {
             console.log(error);
             res.sendStatus(400);
-        })
+        });
     }
 
     if(!deletedPost)

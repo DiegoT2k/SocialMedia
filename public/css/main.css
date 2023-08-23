@@ -236,6 +236,45 @@ button span
     width: 48px;
 }
 
+.card {
+    /*position: fixed;*/
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*width: 80%;  Modifica la larghezza del blocco genitore */
+    max-width: 400px; /* Larghezza massima dell'immagine */
+    height: auto;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.carousel img {
+    width: 100%;
+    height: auto;
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.carousel-controls button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
 #immagineSelezionata img{
     width: 50%;
     height: 50%;

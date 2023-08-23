@@ -1,4 +1,32 @@
 extends layouts/main-layout.pug
 
 block content
-    
+    .card
+        .carousel
+                img(src="/images/bias.jpg", alt="Image 1")
+                img(src="/images/bias2.jpg", alt="Image 2")
+                img(src="/images/bias3.jpg", alt="Image 3")
+        .carousel-controls
+                button.prev-btn Previous
+                button.next-btn Next
+
+    script.
+        const carousel = document.querySelector('.carousel');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentIndex = 0;
+
+        function slideTo(index) {
+            const slideWidth = carousel.querySelector('img').clientWidth;
+            carousel.style.transform = `translateX(-${slideWidth * index}px)`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + carousel.children.length) % carousel.children.length;
+            slideTo(currentIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % carousel.children.length;
+            slideTo(currentIndex);
+        });
