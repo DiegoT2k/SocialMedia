@@ -13,20 +13,11 @@ block content
             input#passwordConf(type="password", name="passwordConf", placeholder="Confirm password", required="")
             <input type="hidden" id="bio" name="bio">
 
-            <select name="profilePic" onchange="visualizzaImmagineSelezionata()" required="">
-                <option value="">Select profile picture</option>
-                <option data-immagine="/images/volpe2.jpg" value="/images/volpe2.jpg" data-bio="Bio per la volpe">Volpe</option>
-                <option data-immagine="/images/gufetto.jpg" value="/images/gufetto.jpg" data-bio="Bio per il gufo">Gufo</option>
-                <option data-immagine="/images/mantide2.jpg" value="/images/mantide2.jpg" data-bio="Bio per la mantide">Mantide Religiosa</option>
-                <option data-immagine="/images/ant2.jpg" value="/images/ant.jpg" data-bio="Bio per la formica">Formica</option>
-                <option data-immagine="/images/farfalla.png" value="/images/farfalla.png" data-bio="Bio per la farfalla">Farfalla</option>
-            </select>
+            input(type="hidden", id="profilePic", name="profilePic")
 
-            <div id="immagineSelezionata"></div>
-           
             input(type="submit", value="Register")
 
-        a(href="/login") Already have an account? Login here.
+            a(href="/login") Already have an account? Login here.
     
     script.
         var passwordField = document.getElementById("password")
@@ -42,14 +33,23 @@ block content
             }
         }
 
-        function visualizzaImmagineSelezionata() {
-            var select = document.querySelector('select[name="profilePic"]');
-            var immagineSelezionata = select.options[select.selectedIndex].getAttribute('data-immagine');
-            var bio = select.options[select.selectedIndex].getAttribute('data-bio');
-            if(immagineSelezionata === null){
-                document.getElementById('immagineSelezionata').innerHTML = '';
-            }else{
-            document.getElementById("immagineSelezionata").innerHTML = '<img src="' + immagineSelezionata + '">';
-            }
-            document.getElementById("bio").value = bio;
+                // Array of image options
+        const imageOptions = [
+            { value: "/images/gufetto.jpg", bio: "Bio per il gufo" },
+            { value: "/images/volpe2.jpg", bio: "Bio per la volpe" },
+            { value: "/images/mantide2.jpg", bio: "Bio per la mantide" },
+            { value: "/images/ant2.jpg", bio: "Bio per la formica" },
+            { value: "/images/farfalla.png", bio: "Bio per la farfalla" }
+        ];
+
+                // Function to select a random image
+        function selectRandomImage() {
+            const randomIndex = Math.floor(Math.random() * imageOptions.length);
+            const selectedImage = imageOptions[randomIndex];
+            document.getElementById("profilePic").value = selectedImage.value;
+            document.getElementById("bio").value = selectedImage.bio;
         }
+
+        selectRandomImage();
+
+
