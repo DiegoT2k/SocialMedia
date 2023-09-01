@@ -157,8 +157,14 @@ router.put("/:id/like", async (req, res, next) => {
 
     var postId = req.params.id;
     var userId = req.session.user._id;
-
+    
     var userPost = await Post.findById(postId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
+
+    var sp = await User.findById(userPost.postedBy)            
         .catch(error => {
         console.log(error);
         res.sendStatus(400);
@@ -188,9 +194,8 @@ router.put("/:id/like", async (req, res, next) => {
 
     // Incrementa numLike per il proprietario del post
     if(isLiked){
-        
-        if(user.special){
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : -1, punteggio : -3} } )
+        if(sp.special){
+            await User.findByIdAndUpdate(user._id, { $inc: { punteggio: -4, numLike: -1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
@@ -209,25 +214,25 @@ router.put("/:id/like", async (req, res, next) => {
         }
 
     }else{
-
-        if(user.special){
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numLike : 1, punteggio : +3} } )
+        
+        if(sp.special){
+            await User.findByIdAndUpdate(user._id, { $inc: { punteggio: +4, numLike: +1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
         }else{
-            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 3}, numLike : 1 } )
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : +3, numLike : +1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
-            await User.findByIdAndUpdate(user._id, { $inc: { punteggio: +1.5, numLike: -1 } })
+            await User.findByIdAndUpdate(user._id, { $inc: { punteggio: +1.5, numLike: +1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
-            });
-        } 
+            });           
+        }
 
     }
 
