@@ -265,13 +265,20 @@ router.put("/:id/comment", async (req, res, next) => {
     var postId = req.params.id;
     var userId = req.session.user._id;
 
+    const user = await User.findById(userId)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
+
     var userPost = await Post.findById(postId); 
 
-    const user = await User.findById(userId)            
-    .catch(error => {
-    console.log(error);
-    res.sendStatus(400);
+    var sp = await User.findById(userPost.postedBy)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
     });
+
 
     if(!userPost || !userPost.postedBy){
         res.redirect("/");
@@ -296,22 +303,27 @@ router.put("/:id/comment", async (req, res, next) => {
         res.sendStatus(400);
     })
 
-    // Incrementa numComment per il proprietario del post    
-    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numComment : 1} } )
-    .catch(error => {
-    console.log(error);
-    res.sendStatus(400);
-    });
-    await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : 5} } )
-        .catch(error => {            
-        console.log(error);
-        res.sendStatus(400);
-    });
-    await User.findByIdAndUpdate(user._id,  { $inc : {punteggio : 2.5} } )
-    .catch(error => {            
-    console.log(error);
-    res.sendStatus(400);
-    });
+    // Incrementa numComment per il proprietario del post  
+    if(sp.special){
+        await User.findByIdAndUpdate(user._id,  { $inc : {punteggio : 6, numComment : 1} } )
+            .catch(error => {            
+            console.log(error);
+            res.sendStatus(400);
+        });           
+    }else{
+        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numComment : 1, punteggio : 5} } )
+            .catch(error => {
+            console.log(error);
+            res.sendStatus(400);
+        });
+
+        await User.findByIdAndUpdate(user._id,  { $inc : {punteggio : 2.5, numComment: 1} } )
+            .catch(error => {            
+            console.log(error);
+            res.sendStatus(400);
+        });        
+    }  
+
 
     res.status(200).send(post);
 })
@@ -320,12 +332,20 @@ router.post("/:id/retweet", async (req, res, next) => {
     var postId = req.params.id;
     var userId = req.session.user._id;
 
-    var userPost = await Post.findById(postId);
     const user = await User.findById(userId)            
         .catch(error => {
         console.log(error);
         res.sendStatus(400);
     });
+
+    var userPost = await Post.findById(postId);
+
+    var sp = await User.findById(userPost.postedBy)            
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
+    
     var payload = {
         pageTitle: "Home",
 		userLoggedIn: req.session.user,
@@ -373,27 +393,48 @@ router.post("/:id/retweet", async (req, res, next) => {
 
     // Incrementa numRetweet per il proprietario del post
     if(deletedPost){
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1, punteggio:-4} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
-        await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : -1, punteggio:-2} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
+
+        if(sp.special){
+            await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : -1, punteggio: -5} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            })         
+        }else{
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1, punteggio: -4} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            })
+            await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : -1, punteggio: -2} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            })            
+        }
+
+
     }else{
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1, punteggio:4} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
-        await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : 1, punteggio:2} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
+
+        if(sp.special){
+            await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : 1, punteggio: 5} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            })
+        }else{
+            await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1, punteggio: 4} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            })
+            await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : 1, punteggio: 2} } )
+            .catch(error => {
+                console.log(error);
+                res.sendStatus(400);
+            })
+        }
+
     }
 
     if(!deletedPost)
@@ -432,85 +473,6 @@ router.put("/:id", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
-})
-
-router.post("/:id/retweet", async (req, res, next) => {
-    var postId = req.params.id;
-    var userId = req.session.user._id;
-
-    const user = await User.findById(userId)            
-        .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    });
-
-    var userPost = await Post.findById(postId);
-
-    //Try and delete retweet
-    var deletedPost = await Post.findOneAndDelete({ postedBy: userId, retweetData: postId })
-    .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    })
-
-    var option = deletedPost != null ? "$pull" : "$addToSet";
-
-    var repost = deletedPost;
-
-    if(repost == null)
-    {
-        repost = await Post.create({ postedBy: userId, retweetData: postId })
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        })
-    }
-
-    // Insert/pull user retweet
-    req.session.user = await User.findByIdAndUpdate(userId, { [option]: { retweets: repost._id } }, { new: true })
-    .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    })
-
-    // Insert/pull post retweet
-    var post = await Post.findByIdAndUpdate(postId, { [option]: { retweetUsers: userId } }, { new: true })
-    .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    })
-
-    // Incrementa numRetweet per il proprietario del post
-    if(deletedPost){
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1, punteggio: -4} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        });
-        await User.findByIdAndUpdate(user._id, { $inc: { punteggio: -2, numRetweet: -1 } })
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        });
-    }else{
-        await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1, punteggio:4} } )
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        });
-        await User.findByIdAndUpdate(user._id, { $inc: { punteggio: 2, numRetweet: 1 } })
-        .catch(error => {
-            console.log(error);
-            res.sendStatus(400);
-        });
-    }
-
-    if(!deletedPost)
-    {
-        await Notification.insertNotification(post.postedBy, userId, "retweet", post._id);
-    }
-
-    res.status(200).send(post);
 })
 
 router.delete("/:id", (req, res, next) => {
