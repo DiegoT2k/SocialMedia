@@ -1,8 +1,8 @@
 :root
 {
-    --blue: #e9791d;
-    --blueLight: #eda058;
-    --blueBackground: rgba(233, 169, 91, 0.6);
+    --orange: #e9791d;
+    --orangeLight: #eda058;
+    --orangeBackground: rgba(233, 169, 91, 0.6);
     --buttonHoverBg: #d4edff;
     --lightGrey: rgb(230, 236, 240);
     --spacing: 15px;
@@ -15,7 +15,7 @@
     --greenBackground: rgba(23,191,99,0.1);
     --scrollbarWidthSlim: 6px; 
     --scrollbarBgColourGradient: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
-    --blueDark: rgb(50, 34, 226);
+    --orangeDark: rgb(50, 34, 226);
 }
 
 html, body
@@ -79,13 +79,13 @@ nav a
 
 nav a.blue
 {
-    color: var(--blue);
+    color: var(--orange);
 }
 
 nav a:hover
 {
     background-color: var(--buttonHoverBg);
-    color: var(--blue);
+    color: var(--orange);
     border-radius: 50%;
 }
 
@@ -177,7 +177,7 @@ nav a:hover
 
 #submitPostButton
 {
-    background-color: var(--blue);
+    background-color: var(--orange);
     color: #FFF;
     border: none;
     border-radius: 40px;
@@ -186,7 +186,7 @@ nav a:hover
 
 #submitPostButton:disabled 
 {
-    background-color: var(--blueLight);
+    background-color: var(--orangeLight);
 }
 
 /*  */
@@ -238,13 +238,14 @@ button span
 
 .card {
     /*position: fixed;*/
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     /*width: 80%;  Modifica la larghezza del blocco genitore */
-    max-width: 400px; /* Larghezza massima dell'immagine */
+     /*max-width: 400px; Larghezza massima dell'immagine */
     height: auto;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .card img {
@@ -253,6 +254,7 @@ button span
 }
 
 .carousel {
+    width: 100%;
     display: flex;
     transition: transform 0.3s ease-in-out;
 }
@@ -378,7 +380,7 @@ button span
 .postButtonContainer button:hover 
 {
     background-color: #D4EDFF;
-    color: var(--blue);
+    color: var(--orange);
     border-radius: 50%;
 }
 
@@ -395,12 +397,12 @@ button span
 
 .postButtonContainer.blueDark button.active 
 {
-    color: var(--blueDark);
+    color: var(--orangeDark);
 }
 
 .postButtonContainer.blueDark button:hover
 {
-    color: var(--blueDark);
+    color: var(--orangeDark);
     background-color: var(--redBackground);
 }
 
@@ -431,7 +433,7 @@ button span
 
 .replyFlag a
 {
-    color: var(--blue);
+    color: var(--orange);
     /* font-weight: bold; */
 }
 
@@ -473,9 +475,10 @@ button span
 
 .coverPhotoSection
 {
-    height: 180px;
-    background-color: var(--blue);
+    height: 75px;
+    background: linear-gradient(to bottom, #f7d3b1, #e2a253);
     position: relative;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Styles image hanging over contain 132/2= -66px */
@@ -507,8 +510,8 @@ button span
 .profileButton,
 .followButton 
 {
-    border: 1px solid var(--blue);
-    color: var(--blue);
+    border: 1px solid var(--orange);
+    color: var(--orange);
     font-weight: bold;
     padding: 5px 15px;
     border-radius: 60px;
@@ -519,12 +522,12 @@ button span
 .profileButton:hover,
 .followButton:hover 
 {
-    background-color: var(--blueBackground);
+    background-color: var(--orangeBackground);
 }
 
 .followButton.following
 {
-    background-color: var(--blue);
+    background-color: var(--orange);
     color: #FFF;
 }
 
@@ -576,14 +579,14 @@ button span
 
 .tab.active
 {
-    color: var(--blue);
-    border-bottom: 2px solid var(--blue);
+    color: var(--orange);
+    border-bottom: 2px solid var(--orange);
 }
 
 .tab:hover
 {
-    color: var(--blue);
-    background-color: var(--blueBackground);
+    color: var(--orange);
+    background-color: var(--orangeBackground);
 }
 
 .noResults
@@ -667,7 +670,7 @@ button span
 
 .pinButton.active
 {
-    color: var(--blue);
+    color: var(--orange);
 }
 
 .pinnedPostText
@@ -742,7 +745,7 @@ button span
 #createChatButton 
 {
     border: none;
-    background-color: var(--blue);
+    background-color: var(--orange);
     color: #fff;
     padding: 7px 20px;
     margin: 10px auto;
@@ -902,7 +905,7 @@ button span
 .chatContainer .footer button 
 {
     background-color: transparent;
-    color: var(--blue);
+    color: var(--orange);
     font-size: 24px;
 }
 
@@ -1036,7 +1039,7 @@ button span
 /* Styles 'message mine' */
 .chatMessages .message.mine .messageBody 
 {
-    background-color: var(--blue);
+    background-color: var(--orange);
     color: #fff;
 }
 
@@ -1148,7 +1151,7 @@ button span
 
 .resultListItem.active
 {
-    background-color: var(--blueBackground);
+    background-color: var(--orangeBackground);
 }
 
 
