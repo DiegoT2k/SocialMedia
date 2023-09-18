@@ -135,6 +135,10 @@ nav a:hover
     flex-shrink: 0; /* BUG FIX for Safari users */
 }
 
+.special-background{
+    background-color: rgb(241, 226, 196);
+}
+
 /* Styles the reply to tweet */
 .modal .postFormContainer
 {
@@ -683,6 +687,7 @@ button span
 {
     border-bottom: 10px solid rgb(230,236,240);
 }
+
 
 /* search bar */
 .searchBarContainer 

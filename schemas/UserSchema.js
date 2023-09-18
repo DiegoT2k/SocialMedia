@@ -17,7 +17,8 @@ const UserSchema = new Schema({
     numRetweet: { type: Number, default: 0 },
     numComment: { type: Number, default: 0 },
     punteggio: { type: Number, default: 0 },
-    special: { type: Boolean, default: false }
+    special: { type: Boolean, default: false },
+    shadow: { type: Boolean, default: false}
 }, { timestamps: true });
 
 var User = mongoose.model('User', UserSchema);
