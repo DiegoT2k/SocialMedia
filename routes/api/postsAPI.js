@@ -86,7 +86,7 @@ router.get("/:id/:frase", async (req, res, next) => {
             Post.findByIdAndDelete(postId).catch((error) => {
                 console.error(error);
             });
-        }, 600000); // 10 minuti
+        }, 600000); // 10 minutii
     })
     .catch((error) => {
         console.error(error);
