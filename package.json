@@ -1,5 +1,5 @@
 {
-  "name": "twitterclone",
+  "name": "socialmedia",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -8,7 +8,7 @@
     "start": "node --no-deprecation app.js",
     "start-deprecated": "node --no-deprecation app.js"
   },
-  "author": "Zepher Ashe",
+  "author": "Diego",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
