@@ -6,7 +6,7 @@ const path = require('path')
 const bodyParser = require("body-parser")
 const mongoose = require("./database");
 const session = require('express-session');
-
+const User = require('./schemas/UserSchema');
 
 const server = app.listen(port, () => console.log("Server listening on port " + port));
 const io = require("socket.io")(server, { pingTimeout: 60000 });
@@ -121,3 +121,22 @@ io.on("connection", socket => {
     });
 	
 }) 
+
+console.log("ciao");
+
+async function azzeramentoPunteggio() {
+    try {
+        // Trova tutti gli utenti e imposta il campo 'punteggio' a 0 per ognuno di essi
+        await User.updateMany({}, { punteggio: 0 });
+        console.log('Azzeramento dei punteggi completato con successo.');
+    } catch (error) {
+        console.error('Errore durante l\'azzeramento dei punteggi:', error);
+    }
+}
+
+// Intervallo di 24 ore (in millisecondi)
+const intervallo24Ore = 24 * 60 * 60 * 1000;
+
+// Esegui l'azzeramento dei punteggi ogni 24 ore
+setInterval(azzeramentoPunteggio, intervallo24Ore);
+
