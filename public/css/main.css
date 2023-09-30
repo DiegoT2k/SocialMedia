@@ -77,9 +77,17 @@ nav a
     position: relative;
 }
 
-nav a.blue
+nav a.yellow
 {
-    color: var(--orange);
+    color: rgb(235, 193, 27);
+}
+nav a.yellow:hover
+{
+    color: rgb(235, 193, 27);
+}
+
+nav a.space{
+    margin-top: 50px;
 }
 
 nav a:hover

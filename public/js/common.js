@@ -568,7 +568,6 @@ function createPostHtml(postData, largeFont = false)
         <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fas fa-times'></i></button>`;
     }
 
-    console.log(postData.special);
 if(postData.postedBy.special){
     return `<div class='post special-background ${largeFontClass}' data-id='${postData._id}'>
                 <div class='postActionContainer'>
@@ -684,7 +683,7 @@ function timeDifference(current, previous)
     }
 
     else if (elapsed < msPerHour) {
-         return Math.round(elapsed/msPerMinute) + ' minutes ago';   
+         return Math.round(elapsed/msPerMinute) + ' min ago';   
     }
 
     else if (elapsed < msPerDay ) {
