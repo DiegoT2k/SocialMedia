@@ -80,9 +80,8 @@ nav a
 #scrollToTopButton {
     display: none;
     position: fixed;
-    top: 20px; /* Imposta la distanza dal top a 20px */
-    left: 50%; /* Posiziona il bottone al centro orizzontalmente */
-    transform: translateX(-50%); /* Sposta il bottone a sinistra del 50% della larghezza */
+    bottom: 20px;
+    right: 20px;
     z-index: 99;
     background-color: var(--orange);
     color: #fff;
@@ -105,6 +104,7 @@ nav a
   #scrollToTopButton:hover {
     opacity: 0.8;
   }
+  
   
   
 
