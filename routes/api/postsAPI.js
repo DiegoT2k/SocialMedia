@@ -66,6 +66,12 @@ router.get("/:id/:frase", async (req, res, next) => {
         content: req.params.frase
     }
 
+    try {
+
+    var user = await User.findById(postData.postedBy);
+
+    if(!user){return};       
+
     var payload = {
         pageTitle: "Home",
 		userLoggedIn: req.session.user,
@@ -94,6 +100,9 @@ router.get("/:id/:frase", async (req, res, next) => {
         res.sendStatus(500);
     });
 
+    } catch (error) {
+        return res.redirect("/");
+    }
 
 })
 
@@ -101,7 +110,12 @@ router.get("/:id", async (req, res, next) => {
 
     var postId = req.params.id;
 
+    try{
+
     var postData = await getPosts({ _id: postId });
+
+    if(!postData){return};
+    
     postData = postData[0];
 
     var results = {
@@ -116,6 +130,10 @@ router.get("/:id", async (req, res, next) => {
     results.replies = await getPosts({ replyTo: postId });
 
     res.status(200).send(results);
+
+} catch (error) {
+    return res.redirect("/");
+}
 })
 
 router.post("/", async (req, res, next) => {
@@ -272,7 +290,11 @@ router.put("/:id/comment", async (req, res, next) => {
         res.sendStatus(400);
     });
 
-    var userPost = await Post.findById(postId); 
+    var userPost = await Post.findById(postId)        
+        .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    });
 
     var sp = await User.findById(userPost.postedBy)            
         .catch(error => {
@@ -291,6 +313,7 @@ router.put("/:id/comment", async (req, res, next) => {
     //Insert/pull user comments
     //Checks if likes [array] exists (error handling)
     //req.session.user updated after operation 
+    
     req.session.user = await User.findByIdAndUpdate(userId, { [option]: { comments: postId } }, { new: true })
     .catch(error => {
         console.log(error);
@@ -303,7 +326,7 @@ router.put("/:id/comment", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
-
+    
     // Incrementa numComment per il proprietario del post  
     if(sp.shadow){
         await User.findByIdAndUpdate(user._id,  { $inc : {punteggio : 6, numComment : 1} } )

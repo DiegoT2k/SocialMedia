@@ -86,7 +86,7 @@ nav a.yellow:hover
     color: rgb(235, 193, 27);
 }
 
-nav a.space{
+nav div.space{
     margin-top: 50px;
 }
 
@@ -302,10 +302,14 @@ button span
     flex: 1;
 }
 
-.username, 
+.username{
+    color: var(--greyText);    
+} 
+
 .date
 {
     color: var(--greyText);
+    font-size: small;
 }
 
 .displayName 

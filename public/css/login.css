@@ -21,6 +21,12 @@ body {
     -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
+.titolo{
+    font-style: italic;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
 form {
     display: flex;
     flex-direction: column;

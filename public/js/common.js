@@ -38,11 +38,28 @@ $("#submitPostButton, #submitReplyButton").click((event) => {
         content: textbox.val()
     }
 
+
+    
     if(isModal)
-    {
-        var id = button.data().id;
+    {    
+        var id = button.data().id;    
         if(id == null) return alert("button id is null"); //debugging purposes
         data.replyTo = id;
+
+        $.ajax({
+            url: `/api/posts/${id}/comment`,
+            type: "PUT",
+            success: (postData) => {
+                
+                button.find("span").text(postData.comments.length || "");
+    
+                if(postData.likes.includes(userLoggedIn._id)) 
+                {
+                    emitNotification(postData.postedBy)
+                }
+     
+            }
+        })
     }
 
     //AJAX Request
@@ -64,6 +81,7 @@ $("#submitPostButton, #submitReplyButton").click((event) => {
         }
     })
 
+
 })
 
 $("#replyModal").on("show.bs.modal", (event) => {
@@ -72,11 +90,11 @@ $("#replyModal").on("show.bs.modal", (event) => {
     $("#submitReplyButton").data("id", postId);
 
     $.get(`/api/posts/${postId}`, results => {
-        outputPosts(results.postData, $("#originalPostContainer"));
+        outputPosts(results.postData, $("#PostContainer"));
     })
 })
 
-$("#replyModal").on("hidden.bs.modal", () => $("#originalPostContainer").html(""))
+$("#replyModal").on("hidden.bs.modal", () => $("#PostContainer").html(""))
 
 $("#deletePostModal").on("show.bs.modal", (event) => {
     var button = $(event.relatedTarget);
@@ -368,21 +386,6 @@ $(document).on("click", ".commentButton" ,(event) => {
     var postId = getPostIdFromElement(button);
     
     if(postId === undefined) return; //Error handling
-
-    $.ajax({
-        url: `/api/posts/${postId}/comment`,
-        type: "PUT",
-        success: (postData) => {
-            
-            button.find("span").text(postData.comments.length || "");
-
-            if(postData.likes.includes(userLoggedIn._id)) 
-            {
-                emitNotification(postData.postedBy)
-            }
- 
-        }
-    })
 })
 
 $(document).on("click", ".retweetButton", (event) => {
@@ -614,6 +617,7 @@ if(postData.postedBy.special){
                 </div>
             </div>`;
 }else{
+    //codice rimosso: <span>${postData.comments.length || ""}</span>
     return `<div class='post ${largeFontClass}' data-id='${postData._id}'>
                 <div class='postActionContainer'>
                     ${retweetText}
@@ -634,7 +638,7 @@ if(postData.postedBy.special){
                         <div class='postBody'>
                             <span>${postData.content}</span>
                         </div>
-
+                        
                         <div class='postFooter'>
                             <div class='postButtonContainer red'>
                                 <button class='commentButton' data-toggle='modal' data-target='#replyModal'>
@@ -677,9 +681,9 @@ function timeDifference(current, previous)
     var elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
-        if(elapsed/1000 < 30) return "Just now";
+        if(elapsed/1000 < 30) return "Now";
         
-        return Math.round(elapsed/1000) + ' seconds ago';   
+        return Math.round(elapsed/1000) + ' sec ago';   
     }
 
     else if (elapsed < msPerHour) {
@@ -687,7 +691,7 @@ function timeDifference(current, previous)
     }
 
     else if (elapsed < msPerDay ) {
-         return Math.round(elapsed/msPerHour ) + ' hours ago';   
+         return Math.round(elapsed/msPerHour ) + ' hrs ago';   
     }
 
     else if (elapsed < msPerMonth) {
@@ -695,11 +699,11 @@ function timeDifference(current, previous)
     }
 
     else if (elapsed < msPerYear) {
-        return Math.round(elapsed/msPerMonth) + ' months ago';   
+        return Math.round(elapsed/msPerMonth) + ' mts ago';   
     }
 
     else {
-        return Math.round(elapsed/msPerYear ) + ' years ago';   
+        return Math.round(elapsed/msPerYear ) + ' yrs ago';   
     }
 }
 

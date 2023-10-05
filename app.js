@@ -134,8 +134,8 @@ async function azzeramentoPunteggio() {
     }
 }
 
-// Intervallo di 24 ore (in millisecondi)
-const intervallo24Ore = 24 * 60 * 60 * 1000;
+// Intervallo di 1 ora (in millisecondi)
+const intervallo24Ore = 1 * 60 * 60 * 1000;
 
 // Esegui l'azzeramento dei punteggi ogni 24 ore
 setInterval(azzeramentoPunteggio, intervallo24Ore);
