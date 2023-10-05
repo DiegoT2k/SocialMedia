@@ -93,7 +93,7 @@ router.get("/:id/:frase", async (req, res, next) => {
             Post.findByIdAndDelete(postId).catch((error) => {
                 console.error(error);
             });
-        }, 600000); // 10 minutii
+        }, 600000); // 10 minuti
     })
     .catch((error) => {
         console.error(error);
@@ -115,7 +115,7 @@ router.get("/:id", async (req, res, next) => {
     var postData = await getPosts({ _id: postId });
 
     if(!postData){return};
-    
+
     postData = postData[0];
 
     var results = {
