@@ -12,6 +12,10 @@ html(lang="en")
     body
         script.
             var userLoggedIn = !{userLoggedInJs};
+
+        button#scrollToTopButton(style="display: none", onclick="scrollToTop()") 
+            i.fas.fa-long-arrow-alt-up
+
         .wrapper
             .row
                 nav.col-2
@@ -63,5 +67,5 @@ html(lang="en")
 
         script(src="/js/common.js")
         script(src="/js/clientSocket.js")
-        script(src="/j")
+        script(src="/js/scroll.js")
 

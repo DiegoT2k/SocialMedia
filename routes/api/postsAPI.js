@@ -213,13 +213,13 @@ router.put("/:id/like", async (req, res, next) => {
 
     // Incrementa numLike per il proprietario del post
     if(isLiked){
-        if(sp.shadow){
+        if(sp.shadow && !sp.special){
             await User.findByIdAndUpdate(user._id, { $inc: { punteggio: -4, numLike: -1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
-        }else{
+        }else if(!sp.special){
             await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : -3, numLike : -1} } )
             .catch(error => {
                 console.log(error);
@@ -234,13 +234,13 @@ router.put("/:id/like", async (req, res, next) => {
 
     }else{
         
-        if(sp.shadow){
+        if(sp.shadow && !sp.special){
             await User.findByIdAndUpdate(user._id, { $inc: { punteggio: +4, numLike: +1 } })
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             });
-        }else{
+        }else if(!sp.special){
             await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {punteggio : +3, numLike : +1 } })
             .catch(error => {
                 console.log(error);
@@ -328,13 +328,13 @@ router.put("/:id/comment", async (req, res, next) => {
     })
     
     // Incrementa numComment per il proprietario del post  
-    if(sp.shadow){
+    if(sp.shadow && !sp.special){
         await User.findByIdAndUpdate(user._id,  { $inc : {punteggio : 6, numComment : 1} } )
             .catch(error => {            
             console.log(error);
             res.sendStatus(400);
         });           
-    }else{
+    }else if(!sp.special){
         await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numComment : 1, punteggio : 5} } )
             .catch(error => {
             console.log(error);
@@ -418,13 +418,13 @@ router.post("/:id/retweet", async (req, res, next) => {
     // Incrementa numRetweet per il proprietario del post
     if(deletedPost){
 
-        if(sp.shadow){
+        if(sp.shadow && !sp.special){
             await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : -1, punteggio: -5} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             })         
-        }else{
+        }else if(!sp.special){
             await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : -1, punteggio: -4} } )
             .catch(error => {
                 console.log(error);
@@ -440,13 +440,13 @@ router.post("/:id/retweet", async (req, res, next) => {
 
     }else{
 
-        if(sp.shadow){
+        if(sp.shadow && !sp.special){
             await User.findByIdAndUpdate(user._id,  { $inc : {numRetweet : 1, punteggio: 5} } )
             .catch(error => {
                 console.log(error);
                 res.sendStatus(400);
             })
-        }else{
+        }else if(!sp.special){
             await User.findByIdAndUpdate(userPost.postedBy,  { $inc : {numRetweet : 1, punteggio: 4} } )
             .catch(error => {
                 console.log(error);

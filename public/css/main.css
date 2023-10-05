@@ -77,6 +77,37 @@ nav a
     position: relative;
 }
 
+#scrollToTopButton {
+    display: none;
+    position: fixed;
+    top: 20px; /* Imposta la distanza dal top a 20px */
+    left: 50%; /* Posiziona il bottone al centro orizzontalmente */
+    transform: translateX(-50%); /* Sposta il bottone a sinistra del 50% della larghezza */
+    z-index: 99;
+    background-color: var(--orange);
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  
+  #scrollToTopButton i.fa {
+    font-size: 20px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  #scrollToTopButton:hover {
+    opacity: 0.8;
+  }
+  
+  
+
 nav a.yellow
 {
     color: rgb(235, 193, 27);
