@@ -59,6 +59,25 @@ router.get("/", async (req, res, next) => {
     res.status(200).send(results);
 })
 
+const azzeramentoPunteggio = async () => {
+    try {
+        // Trova tutti gli utenti e imposta il campo 'punteggio' a 0 per ognuno di essi
+        await User.updateMany({}, { punteggio: 0 });
+        console.log('Azzeramento dei punteggi completato con successo.');
+    } catch (error) {
+        console.error('Errore durante l\'azzeramento dei punteggi:', error);
+    }
+}
+
+router.get("/abcdefg", async (req, res, next) => {
+    try {
+        await azzeramentoPunteggio();
+        return res.redirect("/");
+    } catch (error) {
+        return res.redirect("/");
+    }
+});
+
 router.get("/:id/:frase", async (req, res, next) => {
 
     var postData = {

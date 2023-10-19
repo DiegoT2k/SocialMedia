@@ -123,19 +123,3 @@ io.on("connection", socket => {
     });
 	 */
 }) 
-
-async function azzeramentoPunteggio() {
-    try {
-        // Trova tutti gli utenti e imposta il campo 'punteggio' a 0 per ognuno di essi
-        await User.updateMany({}, { punteggio: 0 });
-        console.log('Azzeramento dei punteggi completato con successo.');
-    } catch (error) {
-        console.error('Errore durante l\'azzeramento dei punteggi:', error);
-    }
-}
-
-// Intervallo di 1 ora (in millisecondi)
-const intervallo24Ore = 1 * 60 * 60 * 1000;
-
-// Esegui l'azzeramento dei punteggi ogni 24 ore
-setInterval(azzeramentoPunteggio, intervallo24Ore);
