@@ -4,13 +4,8 @@ mixin createPostForm(userLoggedIn)
             img(src=userLoggedIn.profilePic, alt="User's profile picture")
         .textareaContainer
             textarea#postTextarea(placeholder="Cosa sta succedendo?\nMassimo 500 caratteri", maxlength="500")
-            //-.inputContainer 
-                label(for="postImage")
-                input#postImage(type="file", accept="image/*")
             .buttonsContainer
                 button#submitPostButton(disabled="") Post
-                //-button.postPictureButton(data-toggle="modal", data-target="#imagePostUploadModal")
-                    i.fas.fa-camera
 
 mixin createReplyModal(userLoggedIn)
     #replyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='replyModalLabel', aria-hidden='true')

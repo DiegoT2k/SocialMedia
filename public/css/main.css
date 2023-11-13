@@ -337,7 +337,8 @@ button span
 }
 
 .username{
-    color: var(--greyText);    
+    color: var(--greyText); 
+    font-size: small;   
 } 
 
 .date
@@ -507,6 +508,9 @@ button span
     font-size: 21px;
 }
 
+.postBody{
+    padding: .5em 0;
+}
 /* Styling delete button */
 .postContentContainer .postHeader
 {
@@ -1262,4 +1266,11 @@ button span
 #notificationList .active 
 {
     background-color: white;
+}
+
+#markNotificationsAsRead{
+    background-color: #c7c7c7;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }

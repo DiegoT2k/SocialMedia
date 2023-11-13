@@ -584,10 +584,10 @@ if(postData.postedBy.special){
                         <div class='pinnedPostText'>${pinnedPostText}</div>
                         <div class='postHeader'>
                             <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
-                            <span class='username'>@${postedBy.username}</span>
                             <span class='date'>${timestamp}</span>
                             ${buttons}
-                        </div>
+                        </div>                        
+                        <span class='username'>@${postedBy.username}</span>                       
                         ${replyFlag}
                         <div class='postBody'>
                             <span>${postData.content}</span>
@@ -630,10 +630,10 @@ if(postData.postedBy.special){
                         <div class='pinnedPostText'>${pinnedPostText}</div>
                         <div class='postHeader'>
                             <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
-                            <span class='username'>@${postedBy.username}</span>
                             <span class='date'>${timestamp}</span>
                             ${buttons}
                         </div>
+                        <span class='username'>@${postedBy.username}</span>
                         ${replyFlag}
                         <div class='postBody'>
                             <span>${postData.content}</span>
@@ -1120,8 +1120,8 @@ function createPositionHtml(userData, largeFont = false)
                     <div class='postContentContainer'>
                     <div class='postHeader'>
                         <a href='/profile/${userData.username}' class='displayName'>${displayName}</a>
-                        <span class='username'>@${userData.username}</span>
                     </div>
+                    <span class='username'>@${userData.username}</span>
                     <div class='postBody'>
                         <span>Popolarità: ${userData.punteggio}</span>
                     </div>

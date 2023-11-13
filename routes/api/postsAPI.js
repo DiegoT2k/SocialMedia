@@ -54,7 +54,7 @@ router.get("/", async (req, res, next) => {
         
         delete searchObj.followingOnly;
     }
-
+    //io.emit("postAggiornato");
     var results = await getPosts(searchObj);
     res.status(200).send(results);
 })
@@ -112,7 +112,7 @@ router.get("/:id/:frase", async (req, res, next) => {
             Post.findByIdAndDelete(postId).catch((error) => {
                 console.error(error);
             });
-        }, 600000); // 10 minuti
+        }, 60000); // 1 minuto
     })
     .catch((error) => {
         console.error(error);
@@ -123,6 +123,7 @@ router.get("/:id/:frase", async (req, res, next) => {
         return res.redirect("/");
     }
 
+   
 })
 
 router.get("/:id", async (req, res, next) => {
@@ -202,11 +203,12 @@ router.put("/:id/like", async (req, res, next) => {
         res.sendStatus(400);
     });
 
-    var sp = await User.findById(userPost.postedBy)            
-        .catch(error => {
+    try{
+        var sp = await User.findById(userPost.postedBy)            
+    }catch(error){
         console.log(error);
         res.sendStatus(400);
-    });
+    };
 
     var payload = {
         pageTitle: "Home",
@@ -573,6 +575,7 @@ router.post("/postPicture", upload.single("croppedImage"), async (req, res, next
 
 async function getPosts(filter)
 {
+    try{
     var results = await Post.find(filter)
     .populate("postedBy")
     .populate("retweetData")
@@ -582,6 +585,10 @@ async function getPosts(filter)
 
     results = await User.populate(results, { path: "replyTo.postedBy" });
     return await User.populate(results, { path: "retweetData.postedBy" });
+    } catch(error){
+        consol.error("Errore caricamento gleet: ", error);
+        throw error;
+    }
 }
 
 module.exports = router;

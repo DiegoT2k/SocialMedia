@@ -1,11 +1,13 @@
 extends layouts/main-layout.pug
 
 block content    
+
+    button#markNotificationsAsRead
+        | Segna tutte come già lette
+
     .resultsContainer
 
-block headerButton
-    button#markNotificationsAsRead
-        i.fa.fa-check-double
+
 
 block scripts
     script(src="/js/notificationsPage.js")
