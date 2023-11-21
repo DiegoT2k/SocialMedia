@@ -104,12 +104,7 @@ io.on("connection", socket => {
     })
 
     socket.on("notification received", room => socket.in(room).emit("notification received"));
-
-    socket.on("postAggiornato", () => {
-        console.log("Nuovo post ricevuto");
-        location.reload();
-    })
-
-
+    
 }) 
 
+module.exports = io;

@@ -10,7 +10,6 @@ const path = require("path");
 const fs = require("fs");
 const upload = multer({ dest: "uploads/" }); //Profile image directory
 
-
 app.use(express.urlencoded({ extended: false }));
 
 router.get("/", async (req, res, next) => {
@@ -54,7 +53,7 @@ router.get("/", async (req, res, next) => {
         
         delete searchObj.followingOnly;
     }
-    //io.emit("postAggiornato");
+    
     var results = await getPosts(searchObj);
     res.status(200).send(results);
 })
