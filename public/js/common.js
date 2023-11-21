@@ -37,8 +37,6 @@ $("#submitPostButton, #submitReplyButton").click((event) => {
     var data = {
         content: textbox.val()
     }
-
-
     
     if(isModal)
     {    
@@ -326,17 +324,6 @@ $("#userSearchTextbox").keydown((event) => {
 
 })
 
-$("#createChatButton").click(() => {
-    var data = JSON.stringify(selectedUsers);
-
-    $.post("/api/chats", { users: data }, chat => {
-
-        if(!chat || !chat._id) return alert("Invalid response from server.");
-
-        window.location.href = `/messages/${chat._id}`;
-    })
-})
-
 //deletePostButton is static content
 $("#deletePostButton").click((event) => {
     var postId = $(event.target).data("id");
@@ -567,8 +554,8 @@ function createPostHtml(postData, largeFont = false)
             pinnedPostText = "<i class='fas fa-thumbtack'></i> <span>Pinned post</span>";
         }
 
-        buttons = `<button class='pinButton ${pinnedClass}' data-id="${postData._id}" data-toggle="modal" data-target="${dataTarget}"><i class='fas fa-thumbtack'></i></button>
-        <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fas fa-times'></i></button>`;
+        buttons = `<button class='pinButton ${pinnedClass}' data-id="${postData._id}" data-toggle="modal" data-target="${dataTarget}" aria-label="Pin"><i class='fas fa-thumbtack'></i></button>
+        <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal" aria-label="Delete"><i class='fas fa-times'></i></button>`;
     }
 
 if(postData.postedBy.special){
@@ -578,7 +565,7 @@ if(postData.postedBy.special){
                 </div>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
-                        <img src='${postedBy.profilePic}'>
+                        <img src='${postedBy.profilePic}' alt="Immagine profilo">
                     </div>
                     <div class='postContentContainer'>
                         <div class='pinnedPostText'>${pinnedPostText}</div>
@@ -595,19 +582,19 @@ if(postData.postedBy.special){
 
                         <div class='postFooter'>
                             <div class='postButtonContainer red'>
-                                <button class='commentButton' data-toggle='modal' data-target='#replyModal'>
+                                <button class='commentButton' data-toggle='modal' data-target='#replyModal' aria-label='Rispondi'>
                                     <i class='far fa-comment'></i>
                                     <span>${postData.comments.length || ""}</span>
                                 </button>
                             </div>
                             <div class='postButtonContainer green'>
-                                <button class='retweetButton ${retweetButtonActiveClass}'>
+                                <button class='retweetButton ${retweetButtonActiveClass}' aria-label='Retwetta'>
                                     <i class='fas fa-retweet'></i>
                                     <span>${postData.retweetUsers.length || ""}</span>
                                 </button>
                             </div>
                             <div class='postButtonContainer red'>
-                                <button class='likeButton ${likeButtonActiveClass}'>
+                                <button class='likeButton ${likeButtonActiveClass}' aria-label='Metti like'>
                                     <i class='far fa-heart'></i>
                                     <span>${postData.likes.length || ""}</span>
                                 </button>
@@ -624,7 +611,7 @@ if(postData.postedBy.special){
                 </div>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
-                        <img src='${postedBy.profilePic}'>
+                        <img src='${postedBy.profilePic}' alt="Immagine profilo">
                     </div>
                     <div class='postContentContainer'>
                         <div class='pinnedPostText'>${pinnedPostText}</div>
@@ -641,19 +628,19 @@ if(postData.postedBy.special){
                         
                         <div class='postFooter'>
                             <div class='postButtonContainer red'>
-                                <button class='commentButton' data-toggle='modal' data-target='#replyModal'>
+                                <button class='commentButton' data-toggle='modal' data-target='#replyModal' aria-label='Rispondi'>
                                     <i class='far fa-comment'></i>
                                     <span>${postData.comments.length || ""}</span>
                                 </button>
                             </div>
                             <div class='postButtonContainer green'>
-                                <button class='retweetButton ${retweetButtonActiveClass}'>
+                                <button class='retweetButton ${retweetButtonActiveClass}' aria-label='Retwetta'>
                                     <i class='fas fa-retweet'></i>
                                     <span>${postData.retweetUsers.length || ""}</span>
                                 </button>
                             </div>
                             <div class='postButtonContainer red'>
-                                <button class='likeButton ${likeButtonActiveClass}'>
+                                <button class='likeButton ${likeButtonActiveClass}' aria-label='Metti like'>
                                     <i class='far fa-heart'></i>
                                     <span>${postData.likes.length || ""}</span>
                                 </button>
@@ -1027,61 +1014,6 @@ function getNotificationUrl(notification) {
 
     return url;
 }
-
-function createChatHtml(chatData) 
-{
-    var chatName = getChatName(chatData);
-    var image = getChatImageElements(chatData);
-    var latestMessage = getLatestMessage(chatData.latestMessage);
-
-    var activeClass = !chatData.latestMessage || chatData.latestMessage.readBy.includes(userLoggedIn._id) ? "" : "active";
-    
-    return `<a href='/messages/${chatData._id}' class='resultListItem ${activeClass}'>
-                ${image}
-                <div class='resultsDetailsContainer ellipsis'>
-                    <span class='heading ellipsis'>${chatName}</span>
-                    <span class='subText ellipsis'>${latestMessage}</span>
-                </div>
-            </a>`;
-}
-
-function getLatestMessage(latestMessage)
-{
-    if(latestMessage != null)
-    {
-        var sender = latestMessage.sender;
-        return `${sender.firstName} ${sender.lastName}: ${latestMessage.content}`;
-    }
-
-    return "New chat";
-}
-
-function getChatImageElements(chatData)
-{
-    var otherChatUsers = getOtherChatUsers(chatData.users);
-
-    var groupChatClass = "";
-    var chatImage = getUserChatImageElement(otherChatUsers[0]);
-
-    if(otherChatUsers.length > 1) 
-    {
-        groupChatClass = "groupChatImage";
-        chatImage += getUserChatImageElement(otherChatUsers[1]);
-    }
-
-    return `<div class='resultsImageContainer ${groupChatClass}'>${chatImage}</div>`;
-}
-
-function getUserChatImageElement(user)
-{
-    if(!user || !user.profilePic)
-    {
-        return alert("User passed into function is invalid");
-    }
-
-    return `<img src='${user.profilePic}' alt='User's profile pic'>`;
-}
-
 
 function outputPosition(results, container)
 {
