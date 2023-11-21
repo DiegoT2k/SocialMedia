@@ -709,6 +709,11 @@ function outputPosts(results, container)
         results = [results];
     }
 
+    if (!Array.isArray(results)) {
+        console.error("Results is not an array:", results);
+        return;
+    }
+
     results.forEach(result => {
         var html = createPostHtml(result)
         container.append(html);
