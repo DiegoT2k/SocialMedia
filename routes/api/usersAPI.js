@@ -22,7 +22,6 @@ router.get("/", async (req, res, next) => {
             //MongoDB operator
             $or: [  
                 { firstName: { $regex: req.query.search, $options: "i" }},
-                { lastName: { $regex: req.query.search, $options: "i" }},
                 { username: { $regex: req.query.search, $options: "i" }},
             ]
         }

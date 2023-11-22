@@ -762,7 +762,7 @@ function outputUsers(results, container)
 function createUserHtml(userData, showFollowButton) 
 {
 
-    var name = userData.firstName + " " + userData.lastName;
+    var name = userData.firstName;
     var isFollowing = userLoggedIn.following && userLoggedIn.following.includes(userData._id);
     var text = isFollowing ? "Following" : "Follow"
     var buttonClass = isFollowing ? "followButton following" : "followButton"
@@ -834,7 +834,7 @@ function updateSelectedUsersHtml()
     var elements = [];
 
     selectedUsers.forEach(user => {
-        var name = user.firstName + " " + user.lastName;
+        var name = user.firstName;
         var userElement = $(`<span class='selectedUser'>${name}</span>`);
         elements.push(userElement);
     })
@@ -842,26 +842,6 @@ function updateSelectedUsersHtml()
     //Remove all selectedUsers then add them again
     $(".selectedUser").remove();
     $("#selectedUsers").prepend(elements);
-}
-
-function getChatName(chatData) 
-{
-    var chatName = chatData.chatName;
-
-    if(!chatName) {
-        var otherChatUsers = getOtherChatUsers(chatData.users);
-        var namesArray = otherChatUsers.map(user => user.firstName + " " + user.lastName);
-        chatName = namesArray.join(", ")
-    }
-
-    return chatName;
-}
-
-function getOtherChatUsers(users) 
-{
-    if(users.length == 1) return users;
-
-    return users.filter(user => user._id != userLoggedIn._id);
 }
 
 function messageReceived(newMessage)
@@ -978,7 +958,7 @@ function getNotificationText(notification)
 {
     var userFrom = notification.userFrom;
 
-    if(!userFrom.firstName) //|| !userFrom.lastName
+    if(!userFrom.firstName)
     {
         return alert("user from data not populated");
     }
