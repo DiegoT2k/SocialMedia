@@ -535,7 +535,8 @@ function createPostHtml(postData, largeFont = false)
 
         var replyToUsername = postData.replyTo.postedBy.username;
         replyFlag = `<div class='replyFlag'>
-                        Replying to <a href='/profile/${replyToUsername}'>@${replyToUsername}</a>
+                        <br>Replying to <a href='/profile/${replyToUsername}'>@${replyToUsername}</a><br>
+                        ${postData.replyTo.content.substring(0, 50)}
                     </div>`;
     }
 
