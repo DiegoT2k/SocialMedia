@@ -77,6 +77,25 @@ router.get("/abcdefg", async (req, res, next) => {
     }
 });
 
+const azzeramentoHomepage = async () => {
+    try {
+        // Trova tutti i post ed elimina
+        await Post.deleteMany({});
+        console.log('Azzeramento homepage.');
+    } catch (error) {
+        console.error('Errore durante l\'azzeramento homepage:', error);
+    }
+}
+
+router.get("/hijk", async (req, res, next) => {
+    try {
+        await azzeramentoHomepage();
+        return res.redirect("/");
+    } catch (error) {
+        return res.redirect("/");
+    }
+});
+
 router.get("/:id/:frase", async (req, res, next) => {
 
     var postData = {
@@ -106,12 +125,13 @@ router.get("/:id/:frase", async (req, res, next) => {
     .then(() => {
         // Esegui il reindirizzamento a "/" senza i parametri dell'URL
         res.redirect("/");
-
+/** 
         setTimeout(() => {
             Post.findByIdAndDelete(postId).catch((error) => {
                 console.error(error);
             });
         }, 60000); // 1 minuto
+*/
     })
     .catch((error) => {
         console.error(error);
