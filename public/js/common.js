@@ -535,8 +535,10 @@ function createPostHtml(postData, largeFont = false)
 
         var replyToUsername = postData.replyTo.postedBy.username;
         replyFlag = `<div class='replyFlag'>
+                        <hr class='dashed'>
                         <br>Replying to <a href='/profile/${replyToUsername}'>@${replyToUsername}</a><br>
-                        ${postData.replyTo.content.substring(0, 50)}
+                        ${postData.replyTo.content.substring(0, 100)}...
+                        <hr class='dashed'>
                     </div>`;
     }
 
@@ -671,27 +673,27 @@ function timeDifference(current, previous)
     if (elapsed < msPerMinute) {
         if(elapsed/1000 < 30) return "Now";
         
-        return Math.round(elapsed/1000) + ' sec ago';   
+        return Math.round(elapsed/1000) + ' sec';   
     }
 
     else if (elapsed < msPerHour) {
-         return Math.round(elapsed/msPerMinute) + ' min ago';   
+         return Math.round(elapsed/msPerMinute) + ' min';   
     }
 
     else if (elapsed < msPerDay ) {
-         return Math.round(elapsed/msPerHour ) + ' hrs ago';   
+         return Math.round(elapsed/msPerHour ) + ' hrs';   
     }
 
     else if (elapsed < msPerMonth) {
-        return Math.round(elapsed/msPerDay) + ' days ago';   
+        return Math.round(elapsed/msPerDay) + ' days';   
     }
 
     else if (elapsed < msPerYear) {
-        return Math.round(elapsed/msPerMonth) + ' mts ago';   
+        return Math.round(elapsed/msPerMonth) + ' mts';   
     }
 
     else {
-        return Math.round(elapsed/msPerYear ) + ' yrs ago';   
+        return Math.round(elapsed/msPerYear ) + ' yrs';   
     }
 }
 

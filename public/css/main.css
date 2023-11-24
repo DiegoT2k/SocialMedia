@@ -477,10 +477,18 @@ button span
     margin-bottom: var(--spacing);
 }
 
+.dashed{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 50%;
+    margin-left: 0;
+    border: 0.4px dasged var(--greyText);
+}
+
 .replyFlag
 {
     color: var(--greyText);
-    margin-bottom: 5px;
+    /**margin-bottom: 5px;*/
 }
 
 .replyFlag a
