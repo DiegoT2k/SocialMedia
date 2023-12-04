@@ -968,11 +968,16 @@ function createNotificationHtml(notification)
 
 function createNotificationHtmlAll()
 {
-    return `<a class='resultListItem notification'>
+    return `<a class='resultListItem notification' onclick='aggiornaPagina()'>
                 <div class='resultsDetailsContainer ellipsis'>
                     <span class='ellipsis'>Nuovo post</span>
                 </div>
             </a>`;
+}
+
+function aggiornaPagina()
+{
+    location.reload();
 }
 
 function getNotificationText(notification)
