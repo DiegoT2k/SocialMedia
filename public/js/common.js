@@ -70,7 +70,8 @@ $("#submitPostButton, #submitReplyButton").click((event) => {
         }
         else
         {
-            emitNotification(postData);
+            emitAll();
+            //emitNotification(postData);
 
             var html = createPostHtml(postData);
             $(".postsContainer").prepend(html);
@@ -358,6 +359,7 @@ $(document).on("click", ".likeButton" ,(event) => {
             if(postData.likes.includes(userLoggedIn._id)) 
             {
                 button.addClass("active");
+                console.log(postData.postedBy);
                 emitNotification(postData.postedBy)
             }
             else 
@@ -904,13 +906,21 @@ function showNotificationPopup(data)
 {
     var html = createNotificationHtml(data);
     var element = $(html);
-    element.hide().prependTo("#notificationList").slideDown("fast"); //270.
+    element.hide().prependTo("#notificationList").slideDown("slow"); //270.
 
     //var speed = 100; //100ms (default)
     //var duration = 5000; //How long to display
 
     setTimeout(() => element.fadeOut(100), 5000);
  
+}
+
+function showAll(){
+    var html = createNotificationHtmlAll();
+    var element = $(html);
+    element.hide().prependTo("#notificationList").slideDown("slow");
+
+    setTimeout(() => element.fadeOut(100), 5000);
 }
 
 function showMessagePopup(data)
@@ -952,6 +962,15 @@ function createNotificationHtml(notification)
                 </div>
                 <div class='resultsDetailsContainer ellipsis'>
                     <span class='ellipsis'>${text}</span>
+                </div>
+            </a>`;
+}
+
+function createNotificationHtmlAll()
+{
+    return `<a class='resultListItem notification'>
+                <div class='resultsDetailsContainer ellipsis'>
+                    <span class='ellipsis'>Nuovo post</span>
                 </div>
             </a>`;
 }

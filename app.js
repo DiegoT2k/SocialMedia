@@ -8,6 +8,7 @@ const mongoose = require("./database");
 const session = require('express-session');
 const User = require('./schemas/UserSchema');
 
+
 const server = app.listen(port, () => console.log("Server listening on port " + port));
 const io = require("socket.io")(server, { pingTimeout: 60000 });
 
@@ -95,7 +96,7 @@ app.get("/postFollowingPage", middleware.requireLogin, (req, res, next) => {
 
     res.status(200).render("postFollowingPage", payload);
 })
-
+/**
 io.on("connection", socket => {
 	
     socket.on("setup", userData => {
@@ -106,5 +107,44 @@ io.on("connection", socket => {
     socket.on("notification received", room => socket.in(room).emit("notification received"));
     
 }) 
+ */
+io.on("connection", socket => {
+	
+
+    socket.on("setup", userData => {
+        socket.join(userData._id);
+        socket.emit("connected");
+    })
+
+    socket.on("notification received", room => {
+        console.log("received notification in room:", room)
+        socket.in(room).emit("notification received")
+    });
+    
+    socket.on("notification all", (newNotification) => {
+        console.log("ALL");
+
+        const query = User.find({}, {'_id' : 1})    
+
+        query.exec()
+        .then(users => {
+            // Estrai gli ID degli utenti dall'array di utenti
+            const userIDs = users.map(user => user._id);
+    
+            // Ora userIDs contiene un array di tutti gli ID degli utenti nel database
+            console.log("Array di ID degli utenti:", userIDs);
+
+            for (let i = 0; i < userIDs.length; i++) {
+                socket.in(userIDs[i]).emit("notification all received");
+            }
+        })
+  
+
+
+        //socket.emit("notification all received")
+    });
+
+}); 
+
 
 module.exports = io;

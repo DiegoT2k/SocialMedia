@@ -114,7 +114,7 @@ router.get("/:id/:frase", async (req, res, next) => {
 		userLoggedIn: req.session.user,
 		userLoggedInJs: JSON.stringify(req.session.user),
     }
-    
+    emitAll();
     var postId;
     Post.create(postData)
     .then(async (newPost) => {
