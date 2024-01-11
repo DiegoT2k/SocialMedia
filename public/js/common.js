@@ -508,7 +508,7 @@ function createPostHtml(postData, largeFont = false)
     {
         retweetText =`<span>
                         <i class='fas fa-retweet'></i>
-                        @${postedBy.username} Retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>
+                        @${postedBy.username} retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>
                     </span>`;
         return `<div class='post ${largeFontClass}' data-id='${postData._id}'>
                     <div class='postActionContainer'>
