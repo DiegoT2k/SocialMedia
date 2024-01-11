@@ -508,8 +508,13 @@ function createPostHtml(postData, largeFont = false)
     {
         retweetText =`<span>
                         <i class='fas fa-retweet'></i>
-                        Retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>
+                        @${postedBy.username} Retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>
                     </span>`;
+        return `<div class='post ${largeFontClass}' data-id='${postData._id}'>
+                    <div class='postActionContainer'>
+                        ${retweetText}
+                    </div>
+                </div>`;
     }
 
     var replyFlag = "";
@@ -920,7 +925,7 @@ function showAll(){
     var element = $(html);
     element.hide().prependTo("#notificationList").slideDown("slow");
 
-    setTimeout(() => element.fadeOut(100), 5000);
+    setTimeout(() => element.fadeOut(100), 20000);
 }
 
 function showMessagePopup(data)
