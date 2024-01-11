@@ -845,6 +845,7 @@ button span
     align-items: center;
     flex-shrink: 0;
     border-bottom: 1px solid var(--lightGrey);
+    background-color: var(--lightGrey);
 }
 
 .resultListItem:hover
@@ -1277,7 +1278,14 @@ button span
 }
 
 #markNotificationsAsRead{
-    background-color: #c7c7c7;
+    background-color: #d4d3d3;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#markNotificationsAsRead :hover{
+    background-color: #b0afaf;
     color: white;
     padding-top: 15px;
     padding-bottom: 15px;
