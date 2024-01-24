@@ -65,3 +65,30 @@ select{
     margin-bottom: 10px;
     color: grey;
 }
+
+#foot{
+    background-color: #000000b1;
+    color: white;
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 0;
+}
+#foot p{
+    margin-bottom: 0;
+}
+#foot a{
+    text-decoration: underline;
+    color: white;
+}
+
+@media screen and (max-width: 600px){
+    #foot{
+        padding: 10px;
+        margin-bottom: 0;
+        font-size: 10px;
+    }
+}
