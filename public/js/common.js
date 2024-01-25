@@ -1042,6 +1042,8 @@ function outputPosition(results, container)
         results = [results];
     }
 
+    results = results.filter(user => user.punteggio > 0)
+
     results.forEach(result => {
         var html = createPositionHtml(result)
         container.append(html);
