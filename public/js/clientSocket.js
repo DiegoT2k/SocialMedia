@@ -16,7 +16,6 @@ socket.on("notification received", (newNotification) => {
 })
 
 socket.on("notification all received", (newNotification) => {
-    console.log("Client all");
     showAll();
     refreshNotificationsBadge();
 })

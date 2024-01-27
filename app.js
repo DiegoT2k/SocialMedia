@@ -8,7 +8,6 @@ const mongoose = require("./database");
 const session = require('express-session');
 const User = require('./schemas/UserSchema');
 
-
 const server = app.listen(port, () => console.log("Server listening on port " + port));
 const io = require("socket.io")(server, { pingTimeout: 60000 });
 
