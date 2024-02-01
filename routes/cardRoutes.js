@@ -7,7 +7,7 @@ const User = require('../schemas/UserSchema');
 
 router.get("/", (req, res, next) => {
     var payload = {
-        pageTitle: "Pagina con le carte del gioco"
+        pageTitle: "Kit del Complottista"
     }
     res.status(200).render("cardPage", payload);
 })

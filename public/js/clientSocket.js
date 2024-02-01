@@ -1,6 +1,6 @@
 var connected = false;
 
-var socket = io("http://localhost:8000");
+var socket = io("https://glitter.di.unimi.it");
 socket.emit("setup", userLoggedIn);
 
 socket.on("connected", () => connected = true);

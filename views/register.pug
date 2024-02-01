@@ -2,7 +2,10 @@ extends layouts/login-layout.pug
 
 block content
     .loginContainer
-        h1 Register
+        h3 Benvenuta/o su Glitter!
+
+        h6 Crea il tuo ‘profilo complottista’ scegliendo un *nome, cognome e nickname rigorosamente di fantasia.*
+        h6 Buon divertimento!
         form#registerForm(method="post", onsubmit="event.preventDefault(); validateForm();")
 
             p.errorMessage #{errorMessage}
@@ -39,32 +42,32 @@ block content
 
                 // Array of image options
         const imageOptions = [
-            { value: "/images/marlene.jpg", bio: "Bio per Marlene Dietrich" },
-            { value: "/images/poirot.jpg", bio: "Bio per Mr. Poirot" },
-            { value: "/images/marple.jpg", bio: "Bio per Miss Marple" },
-            { value: "/images/bond.jpg", bio: "Bio per James Bond" },
-            { value: "/images/mata.jpg", bio: "Bio per Mata Hari" },
-            { value: "/images/bianca.jpg", bio: "Bio per Bianca Castafiore" },
-            { value: "/images/lupin.jpg", bio: "Bio per Arsenio Lupin" },
-            { value: "/images/sandokan.jpg", bio: "Bio per Sandokan" },
-            { value: "/images/rasputin.jpg", bio: "Bio per Rasputin" },
-            { value: "/images/sherlock.jpg", bio: "Bio per Sherlock" },
-            { value: "/images/nemo.jpg", bio: "Bio per Nemo" },
-            { value: "/images/diabolik.jpeg", bio: "Bio per Diabolik" },
-            { value: "/images/kant.jpg", bio: "Bio per Kant" },
-            { value: "/images/fantomette.jpeg", bio: "Bio per Fantomette" },
-            { value: "/images/oscar.jpeg", bio: "Bio per Lady Oscar" },
-            { value: "/images/roger.jpeg", bio: "Bio per Roger Rabbit" },
-            { value: "/images/jessica.png", bio: "Bio per Jessica Rabbit" },
-            { value: "/images/malefica.jpg", bio: "Bio per Malefica" },
-            { value: "/images/tremal.jpg", bio: "Bio per Tremal-Naik" },
-            { value: "/images/strega.jpg", bio: "Bio per la strega di Biancaneve"},
-            { value: "/images/fletcher.jpg", bio: "Bio per Jessica Fletcher" },
-            { value: "/images/farquaad.png", bio: "Bio per Lord Farquaad" },
-            { value: "/images/indianajones.jpg", bio: "Bio per Indiana Jones" },
-            { value: "/images/jessica.jpg", bio: "Bio per Jessica Jones" },
-            { value: "/images/chuck.jpeg", bio: "Bio per Chuck" },
-            { value: "/images/baker.jpg", bio: "Bio per Simon Baker" }
+            { value: "/images/marlene.webp", bio: "Bio per Marlene Dietrich" },
+            { value: "/images/poirot.webp", bio: "Bio per Mr. Poirot" },
+            { value: "/images/marple.webp", bio: "Bio per Miss Marple" },
+            { value: "/images/bond.webp", bio: "Bio per James Bond" },
+            { value: "/images/mata.webp", bio: "Bio per Mata Hari" },
+            { value: "/images/bianca.webp", bio: "Bio per Bianca Castafiore" },
+            { value: "/images/lupin.webp", bio: "Bio per Arsenio Lupin" },
+            { value: "/images/sandokan.webp", bio: "Bio per Sandokan" },
+            { value: "/images/rasputin.webp", bio: "Bio per Rasputin" },
+            { value: "/images/sherlock.webp", bio: "Bio per Sherlock" },
+            { value: "/images/nemo.webp", bio: "Bio per Nemo" },
+            { value: "/images/diabolik.webp", bio: "Bio per Diabolik" },
+            { value: "/images/kant.webp", bio: "Bio per Kant" },
+            { value: "/images/fantomette.webp", bio: "Bio per Fantomette" },
+            { value: "/images/oscar.webp", bio: "Bio per Lady Oscar" },
+            { value: "/images/roger.webp", bio: "Bio per Roger Rabbit" },
+            { value: "/images/jes.webp", bio: "Bio per Jessica Rabbit" },
+            { value: "/images/malefica.webp", bio: "Bio per Malefica" },
+            { value: "/images/tremal.webp", bio: "Bio per Tremal-Naik" },
+            { value: "/images/strega.webp", bio: "Bio per la strega di Biancaneve"},
+            { value: "/images/fletcher.webp", bio: "Bio per Jessica Fletcher" },
+            { value: "/images/farquaad.webp", bio: "Bio per Lord Farquaad" },
+            { value: "/images/indianajones.webp", bio: "Bio per Indiana Jones" },
+            { value: "/images/jessica.webp", bio: "Bio per Jessica Jones" },
+            { value: "/images/chuck.webp", bio: "Bio per Chuck" },
+            { value: "/images/baker.webp", bio: "Bio per Simon Baker" }
         ];
 
         // Function to select a random image
