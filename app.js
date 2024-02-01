@@ -12,7 +12,7 @@ const server = app.listen(port, () => console.log("Server listening on port " + 
 const io = require("socket.io")(server, { pingTimeout: 60000 });
 
 app.set("view engine", "pug");
-app.set("views", "views");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: false })); //app.use(bodyParser.urlencoded({ extended: false })); //bodyParser deprecated in Express v4.16+ // amended for ./routes/{loginRoutes, logout}.js
 app.use(express.static(path.join(__dirname, "public")));
@@ -116,12 +116,12 @@ io.on("connection", socket => {
     })
 
     socket.on("notification received", room => {
-        console.log("received notification in room:", room)
+        //console.log("received notification in room:", room)
         socket.in(room).emit("notification received")
     });
     
     socket.on("notification all", (newNotification) => {
-        console.log("ALL");
+        //console.log("ALL");
 
         const query = User.find({}, {'_id' : 1})    
 
@@ -131,7 +131,7 @@ io.on("connection", socket => {
             const userIDs = users.map(user => user._id);
     
             // Ora userIDs contiene un array di tutti gli ID degli utenti nel database
-            console.log("Array di ID degli utenti:", userIDs);
+            //console.log("Array di ID degli utenti:", userIDs);
 
             for (let i = 0; i < userIDs.length; i++) {
                 socket.in(userIDs[i]).emit("notification all received");
