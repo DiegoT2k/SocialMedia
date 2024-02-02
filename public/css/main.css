@@ -844,7 +844,7 @@ button span
     align-items: center;
     flex-shrink: 0;
     border-bottom: 1px solid var(--lightGrey);
-    background-color: var(--lightGrey);
+    background-color: #ebd534;
 }
 
 .resultListItem:hover
@@ -1294,16 +1294,14 @@ button span
     background-color: #000000b1;
     color: white;
     padding: 3px;
-    position: fixed;
+    position: sticky;
     bottom: 0;
     width: 100%;
     text-align: center;
     font-size: 15px;
     margin-bottom: 0;
 }
-#foot p{
-    margin-bottom: 0;
-}
+
 #foot a{
     text-decoration: underline;
 }
