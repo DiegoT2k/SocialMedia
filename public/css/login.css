@@ -76,10 +76,16 @@ select{
     text-align: center;
     font-size: 15px;
     margin-bottom: 0;
+    animation: hideFooter 0.5s forwards 3s;
 }
-#foot p{
-    margin-bottom: 0;
+
+@keyframes hideFooter {
+    to {
+      opacity: 0;
+      pointer-events: none;
+    }
 }
+
 #foot a{
     text-decoration: underline;
     color: white;

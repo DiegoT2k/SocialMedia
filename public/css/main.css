@@ -1300,6 +1300,14 @@ button span
     text-align: center;
     font-size: 15px;
     margin-bottom: 0;
+    animation: hideFooter 0.5s forwards 3s;
+}
+
+@keyframes hideFooter {
+    to {
+      opacity: 0;
+      pointer-events: none;
+    }
 }
 
 #foot a{

@@ -4,8 +4,17 @@ block content
     .loginContainer
         h3 Benvenuta/o su Glitter!
 
-        h6 Crea il tuo ‘profilo complottista’ scegliendo un *nome, cognome e nickname rigorosamente di fantasia.*
-        h6 Buon divertimento!
+        h6
+        | Crea il tuo ‘profilo complottista’ scegliendo un 
+        strong nome
+        | , 
+        strong cognome
+        |  e 
+        strong nickname
+        |  rigorosamente di fantasia.
+        h6
+        | Buon divertimento!
+
         form#registerForm(method="post", onsubmit="event.preventDefault(); validateForm();")
 
             p.errorMessage #{errorMessage}
