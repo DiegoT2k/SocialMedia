@@ -41,10 +41,28 @@ block content
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
         let currentIndex = 0;
+        let startX;
 
         function slideTo(index) {
             const slideWidth = carousel.querySelector('img').clientWidth;
             carousel.style.transform = `translateX(-${slideWidth * index}px)`;
+        }
+
+        function handleTouchStart(event) {
+            startX = event.touches[0].clientX;
+        }
+
+        function handleTouchMove(event) {
+            if (!startX) return;
+            const xDiff = startX - event.touches[0].clientX;
+            if (xDiff > 0) {
+                currentIndex = (currentIndex + 1) % carousel.children.length;
+                slideTo(currentIndex);
+            } else if (xDiff < 0) {
+                currentIndex = (currentIndex - 1 + carousel.children.length) % carousel.children.length;
+                slideTo(currentIndex);
+            }
+            startX = null;
         }
 
         prevBtn.addEventListener('click', () => {
@@ -56,3 +74,5 @@ block content
             currentIndex = (currentIndex + 1) % carousel.children.length;
             slideTo(currentIndex);
         });
+        carousel.addEventListener('touchstart', handleTouchStart);
+        carousel.addEventListener('touchmove', handleTouchMove);
